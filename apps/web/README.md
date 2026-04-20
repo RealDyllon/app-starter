@@ -169,6 +169,11 @@ To add a new route to your application just add a new file in the `./src/routes`
 
 TanStack will automatically generate the content of the route file for you.
 
+For nested paths, prefer directories over dotted filenames. For example:
+
+- `/about` -> `src/routes/about.tsx`
+- `/api/rpc/$` -> `src/routes/api/rpc/$.ts`
+
 Now that you have two routes you can use a `Link` component to navigate between them.
 
 ### Adding Links
