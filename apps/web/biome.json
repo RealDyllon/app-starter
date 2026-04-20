@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.4.5/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -9,9 +9,12 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**/src/**/*",
+			"**/e2e/**/*",
 			"**/.vscode/**/*",
 			"**/index.html",
 			"**/vite.config.ts",
+			"**/vitest.config.ts",
+			"**/playwright.config.ts",
 			"!**/src/routeTree.gen.ts",
 			"!**/src/styles.css"
 		]
@@ -24,7 +27,10 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"style": {
+				"useImportType": "off"
+			}
 		}
 	},
 	"javascript": {
@@ -33,4 +39,3 @@
 		}
 	}
 }
-
