@@ -8,7 +8,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
-import { getLocale } from '#/paraglide/runtime'
+import { getLocale } from '#/i18n/runtime'
 
 import appCss from '../styles.css?url'
 
