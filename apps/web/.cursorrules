@@ -5,3 +5,5 @@ Use the latest version of Shadcn to install new components, like this command to
 ```bash
 pnpm dlx shadcn@latest add button
 ```
+
+For durable project context and TanStack Intent skill mappings, follow `../../AGENTS.md`.

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
   component: About,
@@ -6,17 +6,36 @@ export const Route = createFileRoute('/about')({
 
 function About() {
   return (
-    <main className="page-wrap px-4 py-12">
-      <section className="island-shell rounded-2xl p-6 sm:p-8">
-        <p className="island-kicker mb-2">About</p>
-        <h1 className="display-title mb-3 text-4xl font-bold text-[var(--sea-ink)] sm:text-5xl">
-          A small starter with room to grow.
-        </h1>
-        <p className="m-0 max-w-3xl text-base leading-8 text-[var(--sea-ink-soft)]">
-          TanStack Start gives you type-safe routing, server functions, and
-          modern SSR defaults. Use this as a clean foundation, then layer in
-          your own routes, styling, and add-ons.
-        </p>
+    <main className="app-shell">
+      <section className="page-wrap">
+        <nav aria-label="Primary" className="page-nav">
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
+          <Link to="/about" className="nav-link">
+            About
+          </Link>
+        </nav>
+
+        <section className="hello-card">
+          <p className="hello-label">About</p>
+          <h1>What this project gives you out of the box.</h1>
+          <p>
+            The web app ships with a TanStack-first stack, server APIs, and
+            baseline tooling so you can focus on product work instead of setup.
+          </p>
+
+          <ul className="about-list">
+            <li>TanStack Start with file-based routing and SSR support.</li>
+            <li>Query integration for data fetching and caching.</li>
+            <li>Drizzle + PostgreSQL setup for the server data layer.</li>
+            <li>Auth and API primitives ready for feature development.</li>
+          </ul>
+
+          <Link to="/" className="inline-cta">
+            Back to home
+          </Link>
+        </section>
       </section>
     </main>
   )
