@@ -1,21 +1,25 @@
-name: Web E2E
+name: Web CI
 
 on:
   pull_request:
     paths:
       - "apps/web/**"
-      - "pnpm-lock.yaml"
       - ".github/workflows/web-e2e.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
   push:
     branches:
       - main
     paths:
       - "apps/web/**"
-      - "pnpm-lock.yaml"
       - ".github/workflows/web-e2e.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
 
 jobs:
-  e2e:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,14 +40,81 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        working-directory: .
+
+      - name: Check formatting and lint rules
+        run: pnpm --filter web check
+
+      - name: Run unit tests
+        run: pnpm --filter web test
+
+      - name: Build app
+        env:
+          BETTER_AUTH_SECRET: playwright-test-secret-with-adequate-length
+          BETTER_AUTH_URL: http://127.0.0.1:4173
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/app_starter
+          SERVER_URL: http://127.0.0.1:4173
+          VITE_APP_TITLE: app-starter
+        run: pnpm --filter web build
+
+  e2e:
+    runs-on: ubuntu-latest
+    env:
+      BETTER_AUTH_SECRET: playwright-test-secret-with-adequate-length
+      BETTER_AUTH_URL: http://127.0.0.1:4173
+      CI: true
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/app_starter
+      PLAYWRIGHT_SERVER_MODE: build
+      PLAYWRIGHT_WEB_HOST: 127.0.0.1
+      PLAYWRIGHT_WEB_PORT: "4173"
+      SERVER_URL: http://127.0.0.1:4173
+      VITE_APP_TITLE: app-starter
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: app_starter
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d app_starter"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Migrate Drizzle schema
+        run: pnpm db:migrate
+
+      - name: Build app
+        run: pnpm build
 
       - name: Install Playwright (Chromium)
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run E2E tests
-        env:
-          CI: true
         run: pnpm test:e2e
 
       - name: Upload Playwright artifacts

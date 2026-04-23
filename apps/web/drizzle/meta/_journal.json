@@ -8,6 +8,13 @@
       "when": 1776945353821,
       "tag": "0000_amazing_crusher_hogan",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776953629456,
+      "tag": "0001_flat_slyde",
+      "breakpoints": true
     }
   ]
 }
