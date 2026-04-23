@@ -25,6 +25,13 @@ This project uses [Vitest](https://vitest.dev/) for testing. You can run the tes
 npm run test
 ```
 
+This project also includes [Playwright](https://playwright.dev/) E2E tests in `e2e/`:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
 ## Styling
 
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.

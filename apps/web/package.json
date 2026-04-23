@@ -10,6 +10,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
@@ -76,6 +78,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
     "@inlang/paraglide-js": "^2.13.1",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-event-client": "latest",
     "@tanstack/devtools-vite": "latest",
