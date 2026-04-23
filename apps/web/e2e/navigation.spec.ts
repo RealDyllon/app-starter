@@ -10,7 +10,9 @@ test("home route renders the starter content", async ({ page }) => {
 			name: "Ship from a starter that actually exercises the stack.",
 		}),
 	).toBeVisible();
-	await expect(page.getByText("Starter Baseline")).toBeVisible();
+	await expect(
+		page.getByText("Starter Baseline", { exact: true }),
+	).toBeVisible();
 	await expect(
 		page.getByRole("link", { name: "Open the todo slice" }),
 	).toBeVisible();
