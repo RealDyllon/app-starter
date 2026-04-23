@@ -46,7 +46,7 @@ Chosen stack and integrations:
 - DB server layer: Drizzle ORM + PostgreSQL (`apps/web/src/db/*`)
 - Client DB layer: TanStack DB collection module currently in `apps/web/src/tanstack-db/index.ts`
 - Devtools: `@tanstack/react-devtools`, router/query panels, `@tanstack/devtools-vite`
-- i18n: Paraglide (`apps/web/project.inlang`, `apps/web/src/paraglide`)
+- i18n: Paraglide (`apps/web/src/i18n/project.inlang`, `apps/web/src/i18n/paraglide`)
 
 Environment variable requirements:
 
