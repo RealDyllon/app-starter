@@ -15,6 +15,13 @@
       "when": 1776953629456,
       "tag": "0001_flat_slyde",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777017600000,
+      "tag": "0002_user_scoped_todos",
+      "breakpoints": true
     }
   ]
 }
