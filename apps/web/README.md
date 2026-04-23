@@ -25,6 +25,13 @@ This project uses [Vitest](https://vitest.dev/) for testing. You can run the tes
 pnpm test
 ```
 
+This project also includes [Playwright](https://playwright.dev/) E2E tests in `e2e/`:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
 ## Styling
 
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
@@ -34,7 +41,7 @@ This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 If you prefer not to use Tailwind CSS:
 
 1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
+2. Replace the Tailwind import in `src/app/styles.css` with your own styles
 3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
 4. Remove the packages: `pnpm remove @tailwindcss/vite tailwindcss`
 
@@ -93,7 +100,7 @@ pnpm dlx @better-auth/cli migrate
 ### Usage
 
 ```ts
-import { env } from "#/env";
+import { env } from "#/lib/env";
 
 console.log(env.VITE_APP_TITLE);
 ```
