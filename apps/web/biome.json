@@ -8,19 +8,36 @@
 	"files": {
 		"ignoreUnknown": false,
 		"includes": [
-			"**/src/**/*",
-			"**/.vscode/**/*",
-			"**/index.html",
-			"**/vite.config.ts",
+			"**/*.css",
+			"**/*.js",
+			"**/*.json",
+			"**/*.jsonc",
+			"**/*.jsx",
+			"**/*.ts",
+			"**/*.tsx",
+			"**/*.html",
+			"!**/coverage/**/*",
+			"!**/dist/**/*",
+			"!**/dist-ssr/**/*",
+			"!**/.nitro/**/*",
+			"!**/.output/**/*",
+			"!**/.tanstack/**/*",
+			"!**/.vinxi/**/*",
+			"!**/.wrangler/**/*",
+			"!**/node_modules/**/*",
+			"!**/.cta.json",
 			"!**/playwright-report/**/*",
 			"!**/test-results/**/*",
+			"!**/drizzle/meta/**/*",
 			"!**/src/i18n/paraglide/**/*",
 			"!**/src/i18n/project.inlang/.meta.json",
-			"!**/src/components/storybook/**/*",
-			"!**/src/tests/**/*",
-			"!**/src/routeTree.gen.ts",
-			"!**/src/app/styles.css"
+			"!**/src/routeTree.gen.ts"
 		]
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
 	},
 	"formatter": {
 		"enabled": true,

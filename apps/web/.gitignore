@@ -11,5 +11,6 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+src/i18n/paraglide/
 playwright-report
 test-results
