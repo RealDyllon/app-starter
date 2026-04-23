@@ -6,8 +6,8 @@ This repository is wired for TanStack Intent skill mappings.
 
 Exact CLI commands run:
 
-- `npx @tanstack/intent@latest install`
-- `npx @tanstack/intent@latest list`
+- `pnpm dlx @tanstack/intent@latest install`
+- `pnpm dlx @tanstack/intent@latest list`
 
 Agent rule for architectural or library-specific work:
 

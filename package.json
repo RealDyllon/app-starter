@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.includes('pnpm')) { console.error('Use pnpm instead of npm.'); process.exit(1); }\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create:app": "npx @tanstack/cli@latest create my-tanstack-app --tailwind --add-ons drizzle,nitro,biome,tanstack-query,storybook,store,better-auth,table,t3env,shadcn,paraglide,oRPC,form,db,ai",
-    "create:app-skills": "npx @tanstack/intent@latest list",
+    "create:app": "pnpm dlx @tanstack/cli@latest create my-tanstack-app --tailwind --add-ons drizzle,nitro,biome,tanstack-query,storybook,store,better-auth,table,t3env,shadcn,paraglide,oRPC,form,db,ai",
+    "create:app-skills": "pnpm dlx @tanstack/intent@latest list",
     "web:dev": "cd apps/web && pnpm dev"
   },
   "keywords": [],
