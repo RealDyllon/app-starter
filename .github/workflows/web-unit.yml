@@ -1,21 +1,21 @@
-name: Web E2E
+name: Web Unit Tests
 
 on:
   pull_request:
     paths:
       - "apps/web/**"
       - "pnpm-lock.yaml"
-      - ".github/workflows/web-e2e.yml"
+      - ".github/workflows/web-unit.yml"
   push:
     branches:
       - main
     paths:
       - "apps/web/**"
       - "pnpm-lock.yaml"
-      - ".github/workflows/web-e2e.yml"
+      - ".github/workflows/web-unit.yml"
 
 jobs:
-  e2e:
+  unit:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,28 +30,21 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        working-directory: .
 
-      - name: Install Playwright (Chromium)
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Run E2E tests
+      - name: Run web unit tests with coverage
         env:
           CI: true
-        run: pnpm test:e2e
+        run: pnpm --filter web test:coverage
 
-      - name: Upload Playwright artifacts
-        if: failure()
+      - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-artifacts
-          if-no-files-found: ignore
-          path: |
-            apps/web/playwright-report
-            apps/web/test-results
+          name: web-unit-coverage
+          if-no-files-found: error
+          path: apps/web/coverage
