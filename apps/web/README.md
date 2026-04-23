@@ -28,8 +28,8 @@ pnpm test
 This project also includes [Playwright](https://playwright.dev/) E2E tests in `e2e/`:
 
 ```bash
-npx playwright install chromium
-npm run test:e2e
+pnpm exec playwright install chromium
+pnpm test:e2e
 ```
 
 ## Styling
