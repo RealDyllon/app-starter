@@ -158,6 +158,21 @@ code {
   padding: 0.55rem 0.95rem;
 }
 
+.not-found-card {
+  max-width: 40rem;
+}
+
+.not-found-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.not-found-actions .inline-cta {
+  margin-top: 0;
+}
+
 @media (max-width: 640px) {
   .app-shell {
     padding-top: 1.25rem;

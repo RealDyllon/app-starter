@@ -1,5 +1,6 @@
 import {
 	HeadContent,
+	Link,
 	Scripts,
 	createRootRouteWithContext,
 } from "@tanstack/react-router";
@@ -44,6 +45,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 		],
 	}),
+	notFoundComponent: RootNotFound,
 	shellComponent: RootDocument,
 });
 
@@ -70,5 +72,30 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<Scripts />
 			</body>
 		</html>
+	);
+}
+
+function RootNotFound() {
+	return (
+		<main className="app-shell">
+			<section className="page-wrap">
+				<section className="hello-card not-found-card">
+					<p className="hello-label">404</p>
+					<h1>Page not found.</h1>
+					<p>
+						The route you requested does not exist or is no longer available.
+					</p>
+
+					<div className="not-found-actions">
+						<Link to="/" className="inline-cta">
+							Return home
+						</Link>
+						<Link to="/about" className="nav-link">
+							Open about page
+						</Link>
+					</div>
+				</section>
+			</section>
+		</main>
 	);
 }

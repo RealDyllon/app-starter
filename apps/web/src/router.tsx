@@ -1,1 +1,1 @@
-export { getRouter } from '#/app/router'
+export { getRouter } from "#/app/router";
