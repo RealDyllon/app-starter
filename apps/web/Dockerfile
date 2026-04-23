@@ -2,14 +2,16 @@
 
 FROM node:22-bookworm-slim AS base
 WORKDIR /app
+RUN corepack enable
 
 FROM base AS deps
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+COPY pnpm-lock.yaml /pnpm-lock.yaml
+RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
 COPY . .
-RUN npm run build
+RUN pnpm build
 
 FROM node:22-bookworm-slim AS runner
 WORKDIR /app
