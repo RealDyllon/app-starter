@@ -1,1 +1,1 @@
-export * from '../../i18n/paraglide/messages.js'
+export * from "./paraglide/messages.js";
