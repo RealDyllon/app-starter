@@ -1,0 +1,57 @@
+name: Web Build
+
+on:
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/web-build.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/web-build.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting and lint rules
+        run: pnpm --filter web check
+
+      - name: Run unit tests
+        run: pnpm --filter web test
+
+      - name: Build app
+        env:
+          BETTER_AUTH_SECRET: playwright-test-secret-with-adequate-length
+          BETTER_AUTH_URL: http://127.0.0.1:4173
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/app_starter
+          SERVER_URL: http://127.0.0.1:4173
+          VITE_APP_TITLE: app-starter
+        run: pnpm --filter web build
