@@ -20,11 +20,32 @@ vi.mock("#/i18n/runtime", () => ({
 }));
 
 vi.mock("#/i18n/messages", () => ({
-	m: {
-		language_label: () => "Language",
-		current_locale: ({ locale }: { locale: string }) =>
-			`Current locale: ${locale}`,
-	},
+	m: new Proxy(
+		{
+			language_label: () => "Language",
+			current_locale: ({ locale }: { locale: string }) =>
+				`Current locale: ${locale}`,
+			header_brand: () => "TanStack Start",
+			auth_log_in: () => "Log in",
+			auth_sign_up: () => "Sign up",
+			footer_built_with: () => "Built with TanStack Start",
+			theme_toggle_auto_label: () =>
+				"Theme mode: auto (system). Click to switch to light mode.",
+			theme_toggle_auto: () => "Auto",
+			link_follow_tanstack_x: () => "Follow TanStack on X",
+			link_open_tanstack_github: () => "Go to TanStack GitHub",
+			nav_home: () => "Home",
+			nav_about: () => "About",
+			nav_todos: () => "Todos",
+			nav_docs: () => "Docs",
+			footer_copyright: () => "copyright",
+			auth_user_fallback_initial: () => "U",
+		},
+		{
+			get: (target, prop: string) =>
+				target[prop as keyof typeof target] ?? (() => prop),
+		},
+	),
 }));
 
 vi.mock("@tanstack/react-router", () => ({

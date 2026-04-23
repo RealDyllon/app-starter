@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
+import { m } from "#/i18n/messages";
+
 type AuthMode = "login" | "signup";
 
 type AuthCardViewProps = {
@@ -17,22 +19,20 @@ type AuthCardViewProps = {
 
 const copyByMode = {
 	login: {
-		eyebrow: "Welcome back",
-		title: "Sign in to keep working from the starter baseline.",
-		description:
-			"Use Better Auth with the colocated `/api/auth` route and the shared Postgres connection.",
-		submitLabel: "Sign in",
+		eyebrow: m.auth_login_eyebrow(),
+		title: m.auth_login_title(),
+		description: m.auth_login_description(),
+		submitLabel: m.auth_login_submit(),
 		alternateHref: "/signup",
-		alternateLabel: "Create an account",
+		alternateLabel: m.auth_login_alternate(),
 	},
 	signup: {
-		eyebrow: "Create account",
-		title: "Create a local account backed by Better Auth.",
-		description:
-			"This route gives the starter a working auth entrypoint instead of a disconnected session widget.",
-		submitLabel: "Create account",
+		eyebrow: m.auth_signup_eyebrow(),
+		title: m.auth_signup_title(),
+		description: m.auth_signup_description(),
+		submitLabel: m.auth_signup_submit(),
 		alternateHref: "/login",
-		alternateLabel: "Already have an account?",
+		alternateLabel: m.auth_signup_alternate(),
 	},
 } as const;
 
@@ -61,11 +61,11 @@ export default function AuthCardView({
 					<form className="stack-form" onSubmit={onSubmit}>
 						{mode === "signup" ? (
 							<label className="form-field">
-								<span>Name</span>
+								<span>{m.auth_name_label()}</span>
 								<input
 									value={name}
 									onChange={(event) => onNameChange(event.target.value)}
-									placeholder="Starter User"
+									placeholder={m.auth_name_placeholder()}
 									autoComplete="name"
 									required
 								/>
@@ -73,11 +73,11 @@ export default function AuthCardView({
 						) : null}
 
 						<label className="form-field">
-							<span>Email</span>
+							<span>{m.auth_email_label()}</span>
 							<input
 								value={email}
 								onChange={(event) => onEmailChange(event.target.value)}
-								placeholder="you@example.com"
+								placeholder={m.auth_email_placeholder()}
 								autoComplete="email"
 								type="email"
 								required
@@ -85,11 +85,11 @@ export default function AuthCardView({
 						</label>
 
 						<label className="form-field">
-							<span>Password</span>
+							<span>{m.auth_password_label()}</span>
 							<input
 								value={password}
 								onChange={(event) => onPasswordChange(event.target.value)}
-								placeholder="At least 8 characters"
+								placeholder={m.auth_password_placeholder()}
 								autoComplete={
 									mode === "signup" ? "new-password" : "current-password"
 								}
@@ -102,7 +102,7 @@ export default function AuthCardView({
 
 						<div className="form-actions">
 							<button className="inline-cta m-0 cursor-pointer" type="submit">
-								{isPending ? "Working…" : copy.submitLabel}
+								{isPending ? m.auth_working() : copy.submitLabel}
 							</button>
 							<Link to={copy.alternateHref} className="nav-link">
 								{copy.alternateLabel}

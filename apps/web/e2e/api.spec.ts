@@ -11,19 +11,21 @@ test("GET /api serves the API reference document", async ({ request }) => {
 	expect(body).toContain("TanStack ORPC Playground");
 });
 
-test("POST /api/rpc/listTodos rejects malformed payloads", async ({
+test("POST /api/rpc/listTodos rejects unauthenticated requests", async ({
 	request,
 }) => {
-	const response = await request.post("/api/rpc/listTodos");
+	const response = await request.post("/api/rpc/listTodos", {
+		data: {},
+	});
 
-	expect(response.status()).toBe(400);
+	expect(response.status()).toBe(401);
 
 	const body = await response.json();
 	expect(body).toMatchObject({
 		json: {
-			code: "BAD_REQUEST",
-			status: 400,
-			message: "Input validation failed",
+			code: "UNAUTHORIZED",
+			status: 401,
+			message: "You must sign in to continue.",
 		},
 	});
 });

@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import AuthCardView from "#/components/AuthCardView";
+import { m } from "#/i18n/messages";
 import { authClient } from "#/lib/auth-client";
 
 type AuthMode = "login" | "signup";
@@ -14,7 +15,7 @@ function getErrorMessage(error: unknown) {
 		return error.message;
 	}
 
-	return "Something went wrong. Please try again.";
+	return m.auth_generic_error();
 }
 
 export default function AuthCard({ mode }: AuthCardProps) {
@@ -46,7 +47,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
 						});
 
 			if (result.error) {
-				setError(result.error.message ?? "Authentication failed.");
+				setError(result.error.message ?? m.auth_failed());
 				return;
 			}
 

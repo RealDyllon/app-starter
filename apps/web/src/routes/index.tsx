@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { m } from "#/i18n/messages";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -7,39 +8,31 @@ function App() {
 		<main className="app-shell">
 			<section className="page-wrap">
 				<section className="hello-card">
-					<p className="hello-label">Starter Baseline</p>
-					<h1>Ship from a starter that actually exercises the stack.</h1>
-					<p>
-						This baseline now includes a shared app shell, real auth entry
-						routes, and a persistent todo slice wired through oRPC, Query, and
-						Drizzle.
-					</p>
+					<p className="hello-label">{m.home_label()}</p>
+					<h1>{m.home_title()}</h1>
+					<p>{m.home_description()}</p>
 
 					<div className="feature-grid">
 						<article>
-							<h2>Shared shell</h2>
-							<p>
-								Theme, locale, navigation, and auth state live in one place.
-							</p>
+							<h2>{m.home_feature_shell_title()}</h2>
+							<p>{m.home_feature_shell_description()}</p>
 						</article>
 						<article>
-							<h2>Persistent data</h2>
-							<p>
-								Todos now come from PostgreSQL instead of an in-memory array.
-							</p>
+							<h2>{m.home_feature_data_title()}</h2>
+							<p>{m.home_feature_data_description()}</p>
 						</article>
 						<article>
-							<h2>Working auth</h2>
-							<p>Sign up and sign in routes are ready for local development.</p>
+							<h2>{m.home_feature_auth_title()}</h2>
+							<p>{m.home_feature_auth_description()}</p>
 						</article>
 					</div>
 
 					<div className="cta-row">
 						<Link to="/todos" className="inline-cta">
-							Open the todo slice
+							{m.home_primary_cta()}
 						</Link>
 						<Link to="/signup" className="nav-link">
-							Create an account
+							{m.home_secondary_cta()}
 						</Link>
 					</div>
 				</section>

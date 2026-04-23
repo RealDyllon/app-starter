@@ -27,7 +27,9 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: webServerCommand,
+		command: isBuildServer
+			? webServerCommand
+			: `pnpm db:migrate && pnpm db:prepare:e2e && pnpm exec vite dev --host ${host} --port ${port}`,
 		env: {
 			...process.env,
 			BETTER_AUTH_URL: process.env.BETTER_AUTH_URL ?? baseURL,
