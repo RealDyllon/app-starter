@@ -20,7 +20,7 @@ Monorepo starter built around a TanStack Start web app.
 
 ## Requirements
 
-- Node.js 20+
+- Node.js 24+
 - pnpm 10+
 - PostgreSQL (for DB-backed features)
 
