@@ -1,5 +1,6 @@
 import { and, desc, eq } from "drizzle-orm";
 
+import type { TodoStatus } from "#/lib/todo-schema";
 import { db } from "#/server/db";
 import { todos } from "#/server/db/schema";
 
@@ -8,7 +9,7 @@ function serializeTodo(todo: {
 	userId: string;
 	title: string;
 	notes: string;
-	status: string;
+	status: TodoStatus;
 	createdAt: Date;
 	updatedAt: Date;
 }) {
@@ -53,7 +54,7 @@ export async function createPersistedTodo(input: {
 	userId: string;
 	title: string;
 	notes: string;
-	status: string;
+	status: TodoStatus;
 }) {
 	const [todo] = await db.insert(todos).values(input).returning({
 		id: todos.id,
@@ -81,7 +82,7 @@ export async function updatePersistedTodo(input: {
 	userId: string;
 	title?: string;
 	notes?: string;
-	status?: string;
+	status?: TodoStatus;
 }) {
 	const { id, userId, ...changes } = input;
 

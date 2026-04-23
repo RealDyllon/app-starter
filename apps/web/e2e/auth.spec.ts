@@ -15,9 +15,6 @@ async function signUp(
 	user: ReturnType<typeof createUser>,
 ) {
 	await page.goto("/signup");
-	await expect(
-		page.getByRole("button", { name: "Open TanStack Devtools" }),
-	).toBeVisible();
 
 	const nameInput = page.locator('input[autocomplete="name"]');
 	const emailInput = page.locator('input[autocomplete="email"]');
@@ -40,9 +37,6 @@ async function signIn(
 	user: ReturnType<typeof createUser>,
 ) {
 	await page.goto("/login");
-	await expect(
-		page.getByRole("button", { name: "Open TanStack Devtools" }),
-	).toBeVisible();
 
 	const emailInput = page.locator('input[autocomplete="email"]');
 	const passwordInput = page.locator('input[autocomplete="current-password"]');

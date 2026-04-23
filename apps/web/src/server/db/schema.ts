@@ -1,13 +1,12 @@
 import { relations } from "drizzle-orm";
 import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
+import type { TodoStatus } from "#/lib/todo-schema";
+
 import { user } from "./auth-schema";
 
+export { type TodoStatus, todoStatuses } from "#/lib/todo-schema";
 export * from "./auth-schema";
-
-export const todoStatuses = ["backlog", "in_progress", "done"] as const;
-
-export type TodoStatus = (typeof todoStatuses)[number];
 
 export const todos = pgTable(
 	"todos",

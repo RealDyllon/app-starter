@@ -15,6 +15,24 @@ vi.mock("#/server/todos", () => ({
 }));
 
 const headers = new Headers();
+const mockSession = {
+	session: {
+		id: "session-1",
+		createdAt: new Date("2026-04-23T00:00:00.000Z"),
+		updatedAt: new Date("2026-04-23T00:00:00.000Z"),
+		userId: "user-1",
+		expiresAt: new Date("2026-04-24T00:00:00.000Z"),
+		token: "session-token",
+	},
+	user: {
+		id: "user-1",
+		name: "Test User",
+		email: "test@example.com",
+		emailVerified: false,
+		createdAt: new Date("2026-04-23T00:00:00.000Z"),
+		updatedAt: new Date("2026-04-23T00:00:00.000Z"),
+	},
+};
 
 describe("todo procedures", async () => {
 	const authSession = await import("#/server/auth/session");
@@ -29,10 +47,9 @@ describe("todo procedures", async () => {
 	});
 
 	it("lists todos for the signed-in user only", async () => {
-		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce({
-			session: { id: "session-1" },
-			user: { id: "user-1" },
-		});
+		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce(
+			mockSession,
+		);
 		vi.mocked(serverTodos.listPersistedTodos).mockResolvedValueOnce([
 			{
 				id: "todo-1",
@@ -63,10 +80,9 @@ describe("todo procedures", async () => {
 	});
 
 	it("creates a user-scoped todo with the current session user", async () => {
-		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce({
-			session: { id: "session-1" },
-			user: { id: "user-1" },
-		});
+		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce(
+			mockSession,
+		);
 		vi.mocked(serverTodos.createPersistedTodo).mockResolvedValueOnce({
 			id: "todo-2",
 			userId: "user-1",
@@ -108,10 +124,9 @@ describe("todo procedures", async () => {
 	});
 
 	it("updates a todo owned by the current user", async () => {
-		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce({
-			session: { id: "session-1" },
-			user: { id: "user-1" },
-		});
+		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce(
+			mockSession,
+		);
 		vi.mocked(serverTodos.updatePersistedTodo).mockResolvedValueOnce({
 			id: "todo-3",
 			userId: "user-1",
@@ -149,10 +164,9 @@ describe("todo procedures", async () => {
 	});
 
 	it("rejects updates for missing todos", async () => {
-		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce({
-			session: { id: "session-1" },
-			user: { id: "user-1" },
-		});
+		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce(
+			mockSession,
+		);
 		vi.mocked(serverTodos.updatePersistedTodo).mockResolvedValueOnce(null);
 
 		await expect(
@@ -168,10 +182,9 @@ describe("todo procedures", async () => {
 	});
 
 	it("deletes a todo owned by the current user", async () => {
-		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce({
-			session: { id: "session-1" },
-			user: { id: "user-1" },
-		});
+		vi.mocked(authSession.getSessionFromHeaders).mockResolvedValueOnce(
+			mockSession,
+		);
 		vi.mocked(serverTodos.deletePersistedTodo).mockResolvedValueOnce({
 			id: "todo-4",
 		});

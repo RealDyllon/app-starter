@@ -1,7 +1,7 @@
 import { ORPCError } from "@orpc/server";
 import * as z from "zod";
 
-import { todoStatuses } from "#/server/db/schema";
+import { TodoStatusSchema } from "#/lib/todo-schema";
 import { protectedProcedure } from "#/server/orpc/base";
 import {
 	createPersistedTodo,
@@ -9,8 +9,6 @@ import {
 	listPersistedTodos,
 	updatePersistedTodo,
 } from "#/server/todos";
-
-const TodoStatusSchema = z.enum(todoStatuses);
 
 const CreateTodoInputSchema = z.object({
 	id: z.string().trim().min(1).max(120).optional(),

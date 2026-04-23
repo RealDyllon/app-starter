@@ -4,7 +4,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 
 import { client } from "#/lib/orpc-client";
-import { TodoStatusSchema } from "#/server/orpc/schema";
+import { TodoStatusSchema } from "#/lib/todo-schema";
 
 export const TodoCollectionSchema = z.object({
 	id: z
