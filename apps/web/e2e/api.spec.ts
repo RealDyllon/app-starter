@@ -11,7 +11,9 @@ test("GET /api serves the API reference document", async ({ request }) => {
 	expect(body).toContain("TanStack ORPC Playground");
 });
 
-test("POST /api/rpc/listTodos rejects malformed payloads", async ({ request }) => {
+test("POST /api/rpc/listTodos rejects malformed payloads", async ({
+	request,
+}) => {
 	const response = await request.post("/api/rpc/listTodos");
 
 	expect(response.status()).toBe(400);

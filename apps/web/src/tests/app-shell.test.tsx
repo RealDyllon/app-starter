@@ -22,7 +22,8 @@ vi.mock("#/i18n/runtime", () => ({
 vi.mock("#/i18n/messages", () => ({
 	m: {
 		language_label: () => "Language",
-		current_locale: ({ locale }: { locale: string }) => `Current locale: ${locale}`,
+		current_locale: ({ locale }: { locale: string }) =>
+			`Current locale: ${locale}`,
 	},
 }));
 

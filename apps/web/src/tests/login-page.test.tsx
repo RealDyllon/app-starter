@@ -32,7 +32,9 @@ describe("AuthCardView", () => {
 			/>,
 		);
 
-		expect(markup).toContain("Sign in to keep working from the starter baseline.");
+		expect(markup).toContain(
+			"Sign in to keep working from the starter baseline.",
+		);
 		expect(markup).toContain("Email");
 		expect(markup).toContain("Password");
 		expect(markup).toContain("Sign in");
