@@ -13,8 +13,8 @@ const config = defineConfig({
   plugins: [
     devtools(),
     paraglideVitePlugin({
-      project: './project.inlang',
-      outdir: './src/paraglide',
+      project: './i18n/project.inlang',
+      outdir: './i18n/paraglide',
       strategy: ['url', 'baseLocale'],
     }),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),

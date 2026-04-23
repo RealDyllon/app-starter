@@ -115,9 +115,10 @@ pnpm dlx shadcn@latest add button
 
 This add-on wires up ParaglideJS for localized routing and message formatting.
 
-- Messages live in `project.inlang/messages`.
+- i18n assets live in `i18n/`.
+- Source messages live in `i18n/messages`.
 - URLs are localized through the Paraglide Vite plugin and router `rewrite` hooks.
-- Run the dev server or build to regenerate the `src/paraglide` outputs.
+- Run the dev server or build to regenerate the `i18n/paraglide` outputs.
 
 
 # TanStack Chat Application
