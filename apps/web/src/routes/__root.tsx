@@ -1,16 +1,19 @@
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import {
 	HeadContent,
 	Link,
+	Outlet,
 	Scripts,
 	createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
 
 import TanStackQueryDevtools from "#/app/providers/devtools";
 import appCss from "#/app/styles.css?url";
+import AppShell from "#/components/AppShell";
 import { getLocale } from "#/i18n/runtime";
-import type { QueryClient } from "@tanstack/react-query";
+import { env } from "#/lib/env";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
@@ -35,7 +38,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "Hello World",
+				title: env.VITE_APP_TITLE ?? "app-starter",
 			},
 		],
 		links: [
@@ -45,9 +48,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 		],
 	}),
+	component: RootComponent,
 	notFoundComponent: RootNotFound,
 	shellComponent: RootDocument,
 });
+
+function RootComponent() {
+	return (
+		<AppShell>
+			<Outlet />
+		</AppShell>
+	);
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
@@ -77,25 +89,27 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 function RootNotFound() {
 	return (
-		<main className="app-shell">
-			<section className="page-wrap">
-				<section className="hello-card not-found-card">
-					<p className="hello-label">404</p>
-					<h1>Page not found.</h1>
-					<p>
-						The route you requested does not exist or is no longer available.
-					</p>
+		<AppShell>
+			<main className="app-shell">
+				<section className="page-wrap">
+					<section className="hello-card not-found-card">
+						<p className="hello-label">404</p>
+						<h1>Page not found.</h1>
+						<p>
+							The route you requested does not exist or is no longer available.
+						</p>
 
-					<div className="not-found-actions">
-						<Link to="/" className="inline-cta">
-							Return home
-						</Link>
-						<Link to="/about" className="nav-link">
-							Open about page
-						</Link>
-					</div>
+						<div className="not-found-actions">
+							<Link to="/" className="inline-cta">
+								Return home
+							</Link>
+							<Link to="/about" className="nav-link">
+								Open about page
+							</Link>
+						</div>
+					</section>
 				</section>
-			</section>
-		</main>
+			</main>
+		</AppShell>
 	);
 }

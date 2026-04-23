@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 import { authClient } from "#/lib/auth-client";
 
 export default function BetterAuthHeader() {
@@ -34,5 +36,14 @@ export default function BetterAuthHeader() {
 		);
 	}
 
-	return null;
+	return (
+		<div className="flex items-center gap-2">
+			<Link to="/login" className="nav-link">
+				Log in
+			</Link>
+			<Link to="/signup" className="inline-cta m-0">
+				Sign up
+			</Link>
+		</div>
+	);
 }
