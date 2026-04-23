@@ -8,16 +8,15 @@ export default function ParaglideLocaleSwitcher() {
 	const currentLocale = getLocale();
 
 	return (
-		<div
-			role="group"
+		<fieldset
 			style={{
 				display: "flex",
 				gap: "0.5rem",
 				alignItems: "center",
 				color: "inherit",
 			}}
-			aria-label={m.language_label()}
 		>
+			<legend className="sr-only">{m.language_label()}</legend>
 			<span style={{ opacity: 0.85 }}>
 				{m.current_locale({ locale: currentLocale })}
 			</span>
@@ -43,6 +42,6 @@ export default function ParaglideLocaleSwitcher() {
 					</button>
 				))}
 			</div>
-		</div>
+		</fieldset>
 	);
 }

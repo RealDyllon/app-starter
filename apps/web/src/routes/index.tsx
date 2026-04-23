@@ -1,48 +1,49 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute("/")({ component: App });
 
 function App() {
-  return (
-    <main className="app-shell">
-      <section className="page-wrap">
-        <nav aria-label="Primary" className="page-nav">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-          <Link to="/about" className="nav-link">
-            About
-          </Link>
-        </nav>
+	return (
+		<main className="app-shell">
+			<section className="page-wrap">
+				<section className="hello-card">
+					<p className="hello-label">Starter Baseline</p>
+					<h1>Ship from a starter that actually exercises the stack.</h1>
+					<p>
+						This baseline now includes a shared app shell, real auth entry
+						routes, and a persistent todo slice wired through oRPC, Query, and
+						Drizzle.
+					</p>
 
-        <section className="hello-card">
-          <p className="hello-label">Starter App</p>
-          <h1>Build from a stronger baseline.</h1>
-          <p>
-            This sample home page now has a clearer structure, a small feature
-            overview, and route links you can reuse as you flesh the app out.
-          </p>
+					<div className="feature-grid">
+						<article>
+							<h2>Shared shell</h2>
+							<p>
+								Theme, locale, navigation, and auth state live in one place.
+							</p>
+						</article>
+						<article>
+							<h2>Persistent data</h2>
+							<p>
+								Todos now come from PostgreSQL instead of an in-memory array.
+							</p>
+						</article>
+						<article>
+							<h2>Working auth</h2>
+							<p>Sign up and sign in routes are ready for local development.</p>
+						</article>
+					</div>
 
-          <div className="feature-grid">
-            <article>
-              <h2>Routing</h2>
-              <p>File routes stay simple while navigation remains type-safe.</p>
-            </article>
-            <article>
-              <h2>Data</h2>
-              <p>React Query and SSR utilities are ready when you need them.</p>
-            </article>
-            <article>
-              <h2>Auth + API</h2>
-              <p>oRPC and Better Auth are already wired into the app shell.</p>
-            </article>
-          </div>
-
-          <Link to="/about" className="inline-cta">
-            Learn more about this starter
-          </Link>
-        </section>
-      </section>
-    </main>
-  )
+					<div className="cta-row">
+						<Link to="/todos" className="inline-cta">
+							Open the todo slice
+						</Link>
+						<Link to="/signup" className="nav-link">
+							Create an account
+						</Link>
+					</div>
+				</section>
+			</section>
+		</main>
+	);
 }

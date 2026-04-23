@@ -9,6 +9,13 @@
   --text-muted: #52525b;
   --accent: #0f766e;
   --accent-soft: #ccfbf1;
+  --line: rgba(15, 23, 42, 0.08);
+  --header-bg: rgba(244, 244, 245, 0.85);
+  --chip-line: rgba(15, 118, 110, 0.2);
+  --chip-bg: rgba(255, 255, 255, 0.9);
+  --sea-ink: #0f172a;
+  --sea-ink-soft: #475569;
+  --link-bg-hover: rgba(15, 118, 110, 0.08);
 }
 
 @theme inline {
@@ -83,6 +90,12 @@ code {
   border-color: var(--accent);
 }
 
+.nav-link.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: #134e4a;
+}
+
 .hello-card {
   width: min(100%, 52rem);
   padding: 2rem;
@@ -149,6 +162,7 @@ code {
   margin-top: 1.5rem;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   border-radius: 0.6rem;
   border: 1px solid var(--accent);
   background: var(--accent-soft);
@@ -171,6 +185,94 @@ code {
 
 .not-found-actions .inline-cta {
   margin-top: 0;
+}
+
+.cta-row {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.stack-form {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.form-field span {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.form-field input {
+  width: 100%;
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--text-main);
+  padding: 0.85rem 0.95rem;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.form-field input:focus {
+  outline: 2px solid rgba(15, 118, 110, 0.18);
+  border-color: var(--accent);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.form-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.92rem;
+}
+
+.todo-list {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid var(--card-border);
+  border-radius: 0.8rem;
+  background: #fafafa;
+  padding: 0.95rem 1rem;
+}
+
+.todo-item span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  padding: 1rem;
+  border: 1px dashed var(--card-border);
+  border-radius: 0.8rem;
+  background: #fafafa;
+}
+
+.island-kicker {
+  color: var(--sea-ink-soft);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 640px) {

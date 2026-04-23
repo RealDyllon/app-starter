@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.4.5/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -12,6 +12,12 @@
 			"**/.vscode/**/*",
 			"**/index.html",
 			"**/vite.config.ts",
+			"!**/playwright-report/**/*",
+			"!**/test-results/**/*",
+			"!**/src/i18n/paraglide/**/*",
+			"!**/src/i18n/project.inlang/.meta.json",
+			"!**/src/components/storybook/**/*",
+			"!**/src/tests/**/*",
 			"!**/src/routeTree.gen.ts",
 			"!**/src/app/styles.css"
 		]
