@@ -14,7 +14,7 @@ import appCss from "#/app/styles.css?url";
 import AppShell from "#/components/AppShell";
 import { m } from "#/i18n/messages";
 import { getLocale } from "#/i18n/runtime";
-import { env } from "#/lib/env";
+import { appConfig } from "#/lib/env";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
@@ -39,7 +39,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: env.VITE_APP_TITLE ?? "app-starter",
+				title: appConfig.title,
 			},
 		],
 		links: [

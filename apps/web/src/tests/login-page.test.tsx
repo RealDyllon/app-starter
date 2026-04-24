@@ -7,9 +7,20 @@ vi.mock("@tanstack/react-router", () => ({
 	Link: ({
 		children,
 		to,
+		search,
 		...props
-	}: React.ComponentProps<"a"> & { to: string }) => (
-		<a href={to} {...props}>
+	}: React.ComponentProps<"a"> & {
+		to: string;
+		search?: { redirect?: string };
+	}) => (
+		<a
+			href={
+				search?.redirect
+					? `${to}?redirect=${encodeURIComponent(search.redirect)}`
+					: to
+			}
+			{...props}
+		>
 			{children}
 		</a>
 	),
@@ -51,14 +62,9 @@ describe("AuthCardView", () => {
 		const markup = renderToStaticMarkup(
 			<AuthCardView
 				mode="login"
-				name=""
-				email=""
-				password=""
 				isPending={false}
 				error={null}
-				onNameChange={vi.fn()}
-				onEmailChange={vi.fn()}
-				onPasswordChange={vi.fn()}
+				redirectTo="/todos?filter=done"
 				onSubmit={vi.fn()}
 			/>,
 		);
@@ -69,20 +75,16 @@ describe("AuthCardView", () => {
 		expect(markup).toContain("Email");
 		expect(markup).toContain("Password");
 		expect(markup).toContain("Sign in");
+		expect(markup).toContain("/signup?redirect=%2Ftodos%3Ffilter%3Ddone");
 	});
 
 	it("renders the sign-up form shell", () => {
 		const markup = renderToStaticMarkup(
 			<AuthCardView
 				mode="signup"
-				name=""
-				email=""
-				password=""
 				isPending={false}
 				error={null}
-				onNameChange={vi.fn()}
-				onEmailChange={vi.fn()}
-				onPasswordChange={vi.fn()}
+				redirectTo="/todos"
 				onSubmit={vi.fn()}
 			/>,
 		);
@@ -90,5 +92,6 @@ describe("AuthCardView", () => {
 		expect(markup).toContain("Create a local account backed by Better Auth.");
 		expect(markup).toContain("Name");
 		expect(markup).toContain("Create account");
+		expect(markup).toContain("/login?redirect=%2Ftodos");
 	});
 });

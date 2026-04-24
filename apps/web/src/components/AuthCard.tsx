@@ -8,7 +8,32 @@ type AuthMode = "login" | "signup";
 
 type AuthCardProps = {
 	mode: AuthMode;
+	redirectTo?: string;
 };
+
+export function sanitizeRedirectTarget(value: unknown) {
+	if (typeof value !== "string") {
+		return undefined;
+	}
+
+	const trimmedValue = value.trim();
+
+	if (
+		!trimmedValue ||
+		!trimmedValue.startsWith("/") ||
+		trimmedValue.startsWith("//")
+	) {
+		return undefined;
+	}
+
+	try {
+		const parsedUrl = new URL(trimmedValue, "https://app.local");
+
+		return `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+	} catch {
+		return undefined;
+	}
+}
 
 function getErrorMessage(error: unknown) {
 	if (error instanceof Error && error.message) {
@@ -18,13 +43,12 @@ function getErrorMessage(error: unknown) {
 	return m.auth_generic_error();
 }
 
-export default function AuthCard({ mode }: AuthCardProps) {
+export default function AuthCard({ mode, redirectTo }: AuthCardProps) {
 	const navigate = useNavigate();
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
 	const [isPending, setIsPending] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const redirectTarget = sanitizeRedirectTarget(redirectTo);
+	const destination = redirectTarget ?? "/todos";
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -32,18 +56,23 @@ export default function AuthCard({ mode }: AuthCardProps) {
 		setError(null);
 
 		try {
+			const formData = new FormData(event.currentTarget);
+			const name = String(formData.get("name") ?? "");
+			const email = String(formData.get("email") ?? "");
+			const password = String(formData.get("password") ?? "");
+
 			const result =
 				mode === "signup"
 					? await authClient.signUp.email({
 							name,
 							email,
 							password,
-							callbackURL: "/todos",
+							callbackURL: destination,
 						})
 					: await authClient.signIn.email({
 							email,
 							password,
-							callbackURL: "/todos",
+							callbackURL: destination,
 						});
 
 			if (result.error) {
@@ -51,7 +80,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
 				return;
 			}
 
-			await navigate({ to: "/todos" });
+			await navigate({ to: destination });
 		} catch (caughtError) {
 			setError(getErrorMessage(caughtError));
 		} finally {
@@ -62,14 +91,9 @@ export default function AuthCard({ mode }: AuthCardProps) {
 	return (
 		<AuthCardView
 			mode={mode}
-			name={name}
-			email={email}
-			password={password}
 			isPending={isPending}
 			error={error}
-			onNameChange={setName}
-			onEmailChange={setEmail}
-			onPasswordChange={setPassword}
+			redirectTo={redirectTarget}
 			onSubmit={handleSubmit}
 		/>
 	);

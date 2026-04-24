@@ -66,7 +66,7 @@ test("protected todos require auth and remain user scoped", async ({
 	const firstTodoNotes = "Only the first account should see this.";
 
 	await page.goto("/todos");
-	await expect(page).toHaveURL(/\/login$/);
+	await expect(page).toHaveURL(/\/login\?redirect=%2Ftodos$/);
 
 	await signUp(page, firstUser);
 

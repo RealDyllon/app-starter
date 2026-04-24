@@ -31,7 +31,11 @@ function App() {
 						<Link to="/todos" className="inline-cta">
 							{m.home_primary_cta()}
 						</Link>
-						<Link to="/signup" className="nav-link">
+						<Link
+							to="/signup"
+							search={{ redirect: undefined }}
+							className="nav-link"
+						>
 							{m.home_secondary_cta()}
 						</Link>
 					</div>

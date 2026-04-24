@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "preinstall": "only-allow pnpm",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "create:app": "pnpm dlx @tanstack/cli@latest create my-tanstack-app --tailwind --add-ons drizzle,nitro,biome,tanstack-query,storybook,store,better-auth,table,t3env,shadcn,paraglide,oRPC,form,db,ai",
-    "create:app-skills": "pnpm dlx @tanstack/intent@latest list",
-    "web:dev": "cd apps/web && pnpm dev"
-  },
+	"scripts": {
+		"preinstall": "only-allow pnpm",
+		"build": "pnpm --filter web build",
+		"check": "pnpm --filter web check",
+		"test": "pnpm --filter web test",
+		"typecheck": "pnpm --filter web typecheck",
+		"create:app": "pnpm dlx @tanstack/cli@latest create my-tanstack-app --tailwind --add-ons drizzle,nitro,biome,tanstack-query,storybook,store,better-auth,table,t3env,shadcn,paraglide,oRPC,form,db,ai",
+		"create:app-skills": "pnpm dlx @tanstack/intent@latest list",
+		"web:dev": "cd apps/web && pnpm dev"
+	},
   "keywords": [],
   "author": "",
   "license": "ISC",
