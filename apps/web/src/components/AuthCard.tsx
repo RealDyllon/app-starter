@@ -56,6 +56,27 @@ export function sanitizeCurrentLocationRedirect(value: unknown) {
 	}
 }
 
+export function sanitizeAuthCallbackTarget(value: unknown) {
+	const redirectTarget = sanitizeRedirectTarget(value);
+
+	if (!redirectTarget) {
+		return undefined;
+	}
+
+	try {
+		const parsedUrl = new URL(redirectTarget, "https://app.local");
+		const callbackTarget = `${parsedUrl.pathname}${parsedUrl.search}`;
+
+		if (callbackTarget.startsWith("//")) {
+			return undefined;
+		}
+
+		return callbackTarget;
+	} catch {
+		return undefined;
+	}
+}
+
 function getErrorMessage(error: unknown) {
 	if (error instanceof Error && error.message) {
 		return error.message;
@@ -70,6 +91,8 @@ export default function AuthCard({ mode, redirectTo }: AuthCardProps) {
 	const [error, setError] = useState<string | null>(null);
 	const redirectTarget = sanitizeRedirectTarget(redirectTo);
 	const destination = redirectTarget ?? "/todos";
+	const authCallbackTarget =
+		sanitizeAuthCallbackTarget(destination) ?? "/todos";
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -88,12 +111,12 @@ export default function AuthCard({ mode, redirectTo }: AuthCardProps) {
 							name,
 							email,
 							password,
-							callbackURL: destination,
+							callbackURL: authCallbackTarget,
 						})
 					: await authClient.signIn.email({
 							email,
 							password,
-							callbackURL: destination,
+							callbackURL: authCallbackTarget,
 						});
 
 			if (result.error) {

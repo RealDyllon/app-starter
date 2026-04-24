@@ -130,6 +130,30 @@ describe("AuthCard", () => {
 		expect(navigate).toHaveBeenCalledWith({ to: "/todos?filter=done" });
 	});
 
+	it("strips URL fragments from Better Auth callbacks while preserving client navigation", async () => {
+		mockState({});
+
+		signInEmail.mockResolvedValueOnce({ error: null });
+
+		const element = await renderAuthCard("login", "/todos?filter=done#latest");
+
+		await element.props.onSubmit(
+			submitEvent({
+				email: "user@example.com",
+				password: "password-123",
+			}),
+		);
+
+		expect(signInEmail).toHaveBeenCalledWith({
+			email: "user@example.com",
+			password: "password-123",
+			callbackURL: "/todos?filter=done",
+		});
+		expect(navigate).toHaveBeenCalledWith({
+			to: "/todos?filter=done#latest",
+		});
+	});
+
 	it("stores auth errors returned by the client", async () => {
 		const setError = vi.fn();
 
@@ -223,5 +247,17 @@ describe("AuthCard", () => {
 				"https://app.local/..//evil.com?filter=done#latest",
 			),
 		).toBeUndefined();
+	});
+
+	it("converts redirect targets into Better Auth-compatible callback targets", async () => {
+		const { sanitizeAuthCallbackTarget } = await import(
+			"#/components/AuthCard"
+		);
+
+		expect(sanitizeAuthCallbackTarget("/todos?filter=done#latest")).toBe(
+			"/todos?filter=done",
+		);
+		expect(sanitizeAuthCallbackTarget("/todos#latest")).toBe("/todos");
+		expect(sanitizeAuthCallbackTarget("/..//evil.com#latest")).toBeUndefined();
 	});
 });
