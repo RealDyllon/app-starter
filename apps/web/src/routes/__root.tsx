@@ -12,6 +12,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "#/app/providers/devtools";
 import appCss from "#/app/styles.css?url";
 import AppShell from "#/components/AppShell";
+import { m } from "#/i18n/messages";
 import { getLocale } from "#/i18n/runtime";
 import { env } from "#/lib/env";
 
@@ -93,18 +94,16 @@ function RootNotFound() {
 			<main className="app-shell">
 				<section className="page-wrap">
 					<section className="hello-card not-found-card">
-						<p className="hello-label">404</p>
-						<h1>Page not found.</h1>
-						<p>
-							The route you requested does not exist or is no longer available.
-						</p>
+						<p className="hello-label">{m.not_found_label()}</p>
+						<h1>{m.not_found_title()}</h1>
+						<p>{m.not_found_description()}</p>
 
 						<div className="not-found-actions">
 							<Link to="/" className="inline-cta">
-								Return home
+								{m.not_found_primary_cta()}
 							</Link>
 							<Link to="/about" className="nav-link">
-								Open about page
+								{m.not_found_secondary_cta()}
 							</Link>
 						</div>
 					</section>

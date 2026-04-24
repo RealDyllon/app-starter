@@ -21,6 +21,7 @@
 		"typecheck": "paraglide-js compile --project ./src/i18n/project.inlang --outdir ./src/i18n/paraglide --silent --no-emit-git-ignore --no-emit-prettier-ignore --no-emit-readme && tsc --noEmit",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
+		"db:prepare:e2e": "tsx scripts/prepare-test-db.ts",
 		"db:push": "drizzle-kit push",
 		"db:pull": "drizzle-kit pull",
 		"db:studio": "drizzle-kit studio",

@@ -1,6 +1,8 @@
-import { addTodo, listTodos } from "./todos";
+import { addTodo, deleteTodo, listTodos, updateTodo } from "./todos";
 
 export default {
 	listTodos,
 	addTodo,
+	updateTodo,
+	deleteTodo,
 };

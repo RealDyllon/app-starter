@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { m } from "#/i18n/messages";
 
 export const Route = createFileRoute("/about")({
 	component: About,
@@ -10,36 +11,31 @@ function About() {
 			<section className="page-wrap">
 				<nav aria-label="Primary" className="page-nav">
 					<Link to="/" className="nav-link">
-						Home
+						{m.nav_home()}
 					</Link>
 					<Link to="/about" className="nav-link">
-						About
+						{m.nav_about()}
 					</Link>
 				</nav>
 
 				<section className="hello-card">
-					<p className="hello-label">About</p>
-					<h1>What this starter now covers end to end.</h1>
-					<p>
-						The goal is a truthful baseline: shared layout, auth entry points, a
-						persistent data example, and the core docs to extend it safely.
-					</p>
+					<p className="hello-label">{m.about_label()}</p>
+					<h1>{m.about_title()}</h1>
+					<p>{m.about_description()}</p>
 
 					<ul className="about-list">
-						<li>
-							TanStack Start routes with a mounted global header and footer.
-						</li>
-						<li>oRPC procedures consumed via TanStack Query utilities.</li>
-						<li>Drizzle + PostgreSQL for the server-side todo slice.</li>
-						<li>Better Auth wired to the same database connection.</li>
+						<li>{m.about_item_shell()}</li>
+						<li>{m.about_item_orpc()}</li>
+						<li>{m.about_item_db()}</li>
+						<li>{m.about_item_auth()}</li>
 					</ul>
 
 					<div className="cta-row">
 						<Link to="/todos" className="inline-cta">
-							Explore the todo example
+							{m.about_primary_cta()}
 						</Link>
 						<Link to="/" className="nav-link">
-							Back to home
+							{m.about_secondary_cta()}
 						</Link>
 					</div>
 				</section>
