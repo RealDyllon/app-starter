@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 function uniqueValue(prefix: string) {
-	return `${prefix}-${Date.now()}-${Math.round(Math.random() * 10_000)}`;
+	return `${prefix}-${crypto.randomUUID()}`;
 }
 
 test("users can sign up and persist todos against the production server", async ({
