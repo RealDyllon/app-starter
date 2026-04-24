@@ -28,8 +28,29 @@ export function sanitizeRedirectTarget(value: unknown) {
 
 	try {
 		const parsedUrl = new URL(trimmedValue, "https://app.local");
+		const redirectTarget = `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
 
-		return `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+		if (redirectTarget.startsWith("//")) {
+			return undefined;
+		}
+
+		return redirectTarget;
+	} catch {
+		return undefined;
+	}
+}
+
+export function sanitizeCurrentLocationRedirect(value: unknown) {
+	if (typeof value !== "string") {
+		return undefined;
+	}
+
+	try {
+		const parsedUrl = new URL(value, "https://app.local");
+
+		return sanitizeRedirectTarget(
+			`${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`,
+		);
 	} catch {
 		return undefined;
 	}

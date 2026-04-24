@@ -11,10 +11,11 @@ if (!databaseUrl) {
 
 const parsedDatabaseUrl = new URL(databaseUrl);
 const localHosts = new Set(["127.0.0.1", "localhost"]);
+const databaseHost = parsedDatabaseUrl.hostname.replace(/^\[(.*)\]$/, "$1");
 const isLocalDatabase =
-	localHosts.has(parsedDatabaseUrl.hostname) ||
-	parsedDatabaseUrl.hostname.startsWith("192.168.") ||
-	parsedDatabaseUrl.hostname === "::1";
+	localHosts.has(databaseHost) ||
+	databaseHost.startsWith("192.168.") ||
+	databaseHost === "::1";
 
 if (!isLocalDatabase && process.env.PLAYWRIGHT_FORCE_DB_RESET !== "true") {
 	throw new Error(

@@ -200,4 +200,28 @@ describe("AuthCard", () => {
 		});
 		expect(navigate).toHaveBeenCalledWith({ to: "/todos" });
 	});
+
+	it("rejects protocol-relative targets after URL normalization", async () => {
+		const { sanitizeRedirectTarget } = await import("#/components/AuthCard");
+
+		expect(sanitizeRedirectTarget("//evil.com")).toBeUndefined();
+		expect(sanitizeRedirectTarget("/..//evil.com")).toBeUndefined();
+	});
+
+	it("converts the current location href into a local redirect target", async () => {
+		const { sanitizeCurrentLocationRedirect } = await import(
+			"#/components/AuthCard"
+		);
+
+		expect(
+			sanitizeCurrentLocationRedirect(
+				"https://app.local/todos?filter=done#latest",
+			),
+		).toBe("/todos?filter=done#latest");
+		expect(
+			sanitizeCurrentLocationRedirect(
+				"https://app.local/..//evil.com?filter=done#latest",
+			),
+		).toBeUndefined();
+	});
 });

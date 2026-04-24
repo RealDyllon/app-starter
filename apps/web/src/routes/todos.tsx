@@ -1,7 +1,7 @@
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { startTransition, useDeferredValue, useEffect, useState } from "react";
-import { sanitizeRedirectTarget } from "#/components/AuthCard";
+import { sanitizeCurrentLocationRedirect } from "#/components/AuthCard";
 import { m } from "#/i18n/messages";
 import { authClient } from "#/lib/auth-client";
 import {
@@ -20,7 +20,8 @@ export const Route = createFileRoute("/todos")({
 		const { data: session } = await authClient.getSession();
 
 		if (!session) {
-			const redirectTarget = sanitizeRedirectTarget(location.href) ?? "/todos";
+			const redirectTarget =
+				sanitizeCurrentLocationRedirect(location.href) ?? "/todos";
 
 			throw redirect({
 				to: "/login",
