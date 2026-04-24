@@ -20,12 +20,11 @@ Create `apps/web/.env.local` from `apps/web/.env.example`.
 Required values:
 
 - `DATABASE_URL`
-- `BETTER_AUTH_URL`
 - `BETTER_AUTH_SECRET`
 
 Optional values:
 
-- `SERVER_URL`
+- `BETTER_AUTH_URL` or `SERVER_URL` (one of them is required for Better Auth base URL resolution; `BETTER_AUTH_URL` takes precedence when both are set)
 - `VITE_APP_TITLE`
 
 ## Commands
@@ -68,12 +67,14 @@ Apply them:
 pnpm db:migrate
 ```
 
-Better Auth uses the same Postgres connection. Its tables are managed through the Better Auth CLI:
+Better Auth uses the same Postgres connection. Its tables are exported from `src/server/db/schema.ts` and managed through Drizzle migrations.
 
 ```bash
-npx -y @better-auth/cli secret
-npx -y @better-auth/cli migrate
+docker compose up -d postgres
+pnpm db:migrate
 ```
+
+Generate `BETTER_AUTH_SECRET` with a local secret generator such as `openssl rand -base64 32`.
 
 ## Testing
 

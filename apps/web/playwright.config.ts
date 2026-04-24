@@ -3,18 +3,22 @@ import { defineConfig, devices } from "@playwright/test";
 const host = process.env.PLAYWRIGHT_WEB_HOST ?? "127.0.0.1";
 const port = Number(process.env.PLAYWRIGHT_WEB_PORT ?? 4173);
 const baseURL = `http://${host}:${port}`;
-const serverMode = process.env.PLAYWRIGHT_SERVER_MODE ?? "dev";
+const serverMode = process.env.PLAYWRIGHT_SERVER_MODE ?? "build";
 const isBuildServer = serverMode === "build";
-const webServerCommand = isBuildServer
-	? "pnpm start"
+const prepareDatabaseCommand = "pnpm exec tsx scripts/prepare-test-db.ts";
+const appServerCommand = isBuildServer
+	? "pnpm build && pnpm start"
 	: `pnpm exec vite dev --host ${host} --port ${port}`;
+const webServerCommand = `${prepareDatabaseCommand} && ${appServerCommand}`;
+const reuseExistingServer =
+	process.env.PLAYWRIGHT_REUSE_EXISTING_SERVER === "true";
 
 export default defineConfig({
 	testDir: "./e2e",
-	fullyParallel: true,
+	fullyParallel: false,
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
-	workers: process.env.CI ? 1 : undefined,
+	workers: 1,
 	reporter: [["list"], ["html", { open: "never" }]],
 	use: {
 		baseURL,
@@ -27,9 +31,7 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: isBuildServer
-			? webServerCommand
-			: `pnpm db:migrate && pnpm db:prepare:e2e && pnpm exec vite dev --host ${host} --port ${port}`,
+		command: webServerCommand,
 		env: {
 			...process.env,
 			BETTER_AUTH_URL: process.env.BETTER_AUTH_URL ?? baseURL,
@@ -45,7 +47,7 @@ export default defineConfig({
 			VITE_APP_TITLE: process.env.VITE_APP_TITLE ?? "app-starter",
 		},
 		url: baseURL,
-		reuseExistingServer: serverMode === "dev" && !process.env.CI,
+		reuseExistingServer,
 		timeout: 120 * 1000,
 	},
 });

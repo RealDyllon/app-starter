@@ -1,9 +1,9 @@
 import { m } from "#/i18n/messages";
-import { env } from "#/lib/env";
+import { appConfig } from "#/lib/env";
 
 export default function Footer() {
 	const year = new Date().getFullYear();
-	const appTitle = env.VITE_APP_TITLE ?? "app-starter";
+	const appTitle = appConfig.title;
 
 	return (
 		<footer className="mt-20 border-t border-[var(--line)] px-4 pb-14 pt-10 text-[var(--sea-ink-soft)]">

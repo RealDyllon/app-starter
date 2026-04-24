@@ -7,8 +7,9 @@ Monorepo starter centered on a TanStack Start web app in `apps/web`.
 - `apps/web`: React 19 + TanStack Start + Vite + Nitro
 - `apps/web/src/routes`: file-based routes, including `/`, `/about`, `/todos`, `/login`, and `/signup`
 - `apps/web/src/routes/api*`: colocated API handlers for OpenAPI docs, oRPC, and Better Auth
-- `apps/web/src/db`: Drizzle schema and Postgres database wiring
-- `apps/web/src/orpc`: typed procedure router and client utilities
+- `apps/web/src/server/db`: Drizzle schema and Postgres database wiring
+- `apps/web/src/server/orpc`: typed procedure router
+- `apps/web/src/lib/orpc-client.ts`: client utilities for typed API calls
 
 ## Stack
 
@@ -46,40 +47,46 @@ SERVER_URL="http://localhost:3000"
 VITE_APP_TITLE="app-starter"
 ```
 
+Set either `BETTER_AUTH_URL` or `SERVER_URL` for Better Auth. If both are present, `BETTER_AUTH_URL` wins and `SERVER_URL` remains a trusted origin fallback.
+
 ## Daily commands
 
 From the repo root:
 
 ```bash
 pnpm web:dev
-pnpm --filter web build
-pnpm --filter web test
-pnpm --filter web check
+pnpm build
+pnpm test
+pnpm check
+pnpm typecheck
 ```
 
 The app runs on [http://localhost:3000](http://localhost:3000).
 
 ## Database and auth setup
 
-Generate or refresh the app migration from `apps/web/src/db/schema.ts`:
+Start local Postgres:
+
+```bash
+docker compose up -d postgres
+```
+
+Generate or refresh the app migration from `apps/web/src/server/db/schema.ts`:
 
 ```bash
 cd apps/web
 pnpm db:generate
 ```
 
-Apply the Drizzle migration:
+Apply the Drizzle migrations:
 
 ```bash
 pnpm db:migrate
 ```
 
-Better Auth uses the same Postgres database connection. After setting env vars, run the Better Auth migration flow for its auth tables:
+Better Auth uses the same Postgres database connection. Its tables are exported from `apps/web/src/server/db/schema.ts` and managed by the Drizzle migrations.
 
-```bash
-npx -y @better-auth/cli secret
-npx -y @better-auth/cli migrate
-```
+Generate `BETTER_AUTH_SECRET` with a local secret generator such as `openssl rand -base64 32`.
 
 ## Generated files
 
@@ -95,4 +102,5 @@ npx -y @better-auth/cli migrate
 ## More detail
 
 - App-specific guide: `apps/web/README.md`
+- Template profiles: `docs/template-profiles.md`
 - Project conventions: `AGENTS.md`

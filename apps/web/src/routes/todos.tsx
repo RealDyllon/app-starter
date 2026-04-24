@@ -1,7 +1,7 @@
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { startTransition, useDeferredValue, useEffect, useState } from "react";
-
+import { sanitizeCurrentLocationRedirect } from "#/components/AuthCard";
 import { m } from "#/i18n/messages";
 import { authClient } from "#/lib/auth-client";
 import {
@@ -16,12 +16,18 @@ const statusOptions: TodoStatus[] = ["backlog", "in_progress", "done"];
 
 export const Route = createFileRoute("/todos")({
 	ssr: false,
-	loader: async () => {
+	loader: async ({ location }) => {
 		const { data: session } = await authClient.getSession();
 
 		if (!session) {
+			const redirectTarget =
+				sanitizeCurrentLocationRedirect(location.href) ?? "/todos";
+
 			throw redirect({
 				to: "/login",
+				search: {
+					redirect: redirectTarget,
+				},
 			});
 		}
 
@@ -157,7 +163,11 @@ function TodosPage() {
 						<p>{m.todos_error_description()}</p>
 
 						<div className="cta-row">
-							<Link to="/login" className="inline-cta">
+							<Link
+								to="/login"
+								search={{ redirect: "/todos" }}
+								className="inline-cta"
+							>
 								{m.auth_login_submit()}
 							</Link>
 							<Link to="/" className="nav-link">

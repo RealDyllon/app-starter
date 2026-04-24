@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import AuthCardView from "#/components/AuthCardView";
 import { m } from "#/i18n/messages";
@@ -8,7 +8,74 @@ type AuthMode = "login" | "signup";
 
 type AuthCardProps = {
 	mode: AuthMode;
+	redirectTo?: string;
 };
+
+export function sanitizeRedirectTarget(value: unknown) {
+	if (typeof value !== "string") {
+		return undefined;
+	}
+
+	const trimmedValue = value.trim();
+
+	if (
+		!trimmedValue ||
+		!trimmedValue.startsWith("/") ||
+		trimmedValue.startsWith("//")
+	) {
+		return undefined;
+	}
+
+	try {
+		const parsedUrl = new URL(trimmedValue, "https://app.local");
+		const redirectTarget = `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+
+		if (redirectTarget.startsWith("//")) {
+			return undefined;
+		}
+
+		return redirectTarget;
+	} catch {
+		return undefined;
+	}
+}
+
+export function sanitizeCurrentLocationRedirect(value: unknown) {
+	if (typeof value !== "string") {
+		return undefined;
+	}
+
+	try {
+		const parsedUrl = new URL(value, "https://app.local");
+
+		return sanitizeRedirectTarget(
+			`${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`,
+		);
+	} catch {
+		return undefined;
+	}
+}
+
+export function sanitizeAuthCallbackTarget(value: unknown) {
+	const redirectTarget = sanitizeRedirectTarget(value);
+
+	if (!redirectTarget) {
+		return undefined;
+	}
+
+	try {
+		const parsedUrl = new URL(redirectTarget, "https://app.local");
+		const callbackTarget = `${parsedUrl.pathname}${parsedUrl.search}`;
+
+		if (callbackTarget.startsWith("//")) {
+			return undefined;
+		}
+
+		return callbackTarget;
+	} catch {
+		return undefined;
+	}
+}
 
 function getErrorMessage(error: unknown) {
 	if (error instanceof Error && error.message) {
@@ -18,13 +85,14 @@ function getErrorMessage(error: unknown) {
 	return m.auth_generic_error();
 }
 
-export default function AuthCard({ mode }: AuthCardProps) {
-	const navigate = useNavigate();
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+export default function AuthCard({ mode, redirectTo }: AuthCardProps) {
+	const router = useRouter();
 	const [isPending, setIsPending] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const redirectTarget = sanitizeRedirectTarget(redirectTo);
+	const destination = redirectTarget ?? "/todos";
+	const authCallbackTarget =
+		sanitizeAuthCallbackTarget(destination) ?? "/todos";
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -32,18 +100,23 @@ export default function AuthCard({ mode }: AuthCardProps) {
 		setError(null);
 
 		try {
+			const formData = new FormData(event.currentTarget);
+			const name = String(formData.get("name") ?? "");
+			const email = String(formData.get("email") ?? "");
+			const password = String(formData.get("password") ?? "");
+
 			const result =
 				mode === "signup"
 					? await authClient.signUp.email({
 							name,
 							email,
 							password,
-							callbackURL: "/todos",
+							callbackURL: authCallbackTarget,
 						})
 					: await authClient.signIn.email({
 							email,
 							password,
-							callbackURL: "/todos",
+							callbackURL: authCallbackTarget,
 						});
 
 			if (result.error) {
@@ -51,7 +124,7 @@ export default function AuthCard({ mode }: AuthCardProps) {
 				return;
 			}
 
-			await navigate({ to: "/todos" });
+			router.history.push(destination);
 		} catch (caughtError) {
 			setError(getErrorMessage(caughtError));
 		} finally {
@@ -62,14 +135,9 @@ export default function AuthCard({ mode }: AuthCardProps) {
 	return (
 		<AuthCardView
 			mode={mode}
-			name={name}
-			email={email}
-			password={password}
 			isPending={isPending}
 			error={error}
-			onNameChange={setName}
-			onEmailChange={setEmail}
-			onPasswordChange={setPassword}
+			redirectTo={redirectTarget}
 			onSubmit={handleSubmit}
 		/>
 	);

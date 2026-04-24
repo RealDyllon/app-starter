@@ -6,14 +6,9 @@ type AuthMode = "login" | "signup";
 
 type AuthCardViewProps = {
 	mode: AuthMode;
-	name: string;
-	email: string;
-	password: string;
 	isPending: boolean;
 	error: string | null;
-	onNameChange: (value: string) => void;
-	onEmailChange: (value: string) => void;
-	onPasswordChange: (value: string) => void;
+	redirectTo?: string;
 	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 };
 
@@ -38,17 +33,13 @@ const copyByMode = {
 
 export default function AuthCardView({
 	mode,
-	name,
-	email,
-	password,
 	isPending,
 	error,
-	onNameChange,
-	onEmailChange,
-	onPasswordChange,
+	redirectTo,
 	onSubmit,
 }: AuthCardViewProps) {
 	const copy = copyByMode[mode];
+	const alternateSearch = redirectTo ? { redirect: redirectTo } : undefined;
 
 	return (
 		<main className="app-shell">
@@ -63,8 +54,7 @@ export default function AuthCardView({
 							<label className="form-field">
 								<span>{m.auth_name_label()}</span>
 								<input
-									value={name}
-									onChange={(event) => onNameChange(event.target.value)}
+									name="name"
 									placeholder={m.auth_name_placeholder()}
 									autoComplete="name"
 									required
@@ -75,8 +65,7 @@ export default function AuthCardView({
 						<label className="form-field">
 							<span>{m.auth_email_label()}</span>
 							<input
-								value={email}
-								onChange={(event) => onEmailChange(event.target.value)}
+								name="email"
 								placeholder={m.auth_email_placeholder()}
 								autoComplete="email"
 								type="email"
@@ -87,8 +76,7 @@ export default function AuthCardView({
 						<label className="form-field">
 							<span>{m.auth_password_label()}</span>
 							<input
-								value={password}
-								onChange={(event) => onPasswordChange(event.target.value)}
+								name="password"
 								placeholder={m.auth_password_placeholder()}
 								autoComplete={
 									mode === "signup" ? "new-password" : "current-password"
@@ -101,10 +89,18 @@ export default function AuthCardView({
 						{error ? <p className="form-error">{error}</p> : null}
 
 						<div className="form-actions">
-							<button className="inline-cta m-0 cursor-pointer" type="submit">
+							<button
+								className="inline-cta m-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
+								type="submit"
+								disabled={isPending}
+							>
 								{isPending ? m.auth_working() : copy.submitLabel}
 							</button>
-							<Link to={copy.alternateHref} className="nav-link">
+							<Link
+								to={copy.alternateHref}
+								search={alternateSearch}
+								className="nav-link"
+							>
 								{copy.alternateLabel}
 							</Link>
 						</div>

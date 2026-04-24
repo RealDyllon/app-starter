@@ -25,14 +25,28 @@ function App() {
 							<h2>{m.home_feature_auth_title()}</h2>
 							<p>{m.home_feature_auth_description()}</p>
 						</article>
+						<article>
+							<h2>Feature examples</h2>
+							<p>
+								TanStack Form, Table, Store, and fuzzy search examples are wired
+								as real routes.
+							</p>
+						</article>
 					</div>
 
 					<div className="cta-row">
 						<Link to="/todos" className="inline-cta">
 							{m.home_primary_cta()}
 						</Link>
-						<Link to="/signup" className="nav-link">
+						<Link
+							to="/signup"
+							search={{ redirect: undefined }}
+							className="nav-link"
+						>
 							{m.home_secondary_cta()}
+						</Link>
+						<Link to="/examples/form" className="nav-link">
+							View examples
 						</Link>
 					</div>
 				</section>

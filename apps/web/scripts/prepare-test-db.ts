@@ -1,3 +1,6 @@
+import { execFileSync } from "node:child_process";
+import process from "node:process";
+
 import { Client } from "pg";
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -6,67 +9,50 @@ if (!databaseUrl) {
 	throw new Error("DATABASE_URL is required for E2E database setup.");
 }
 
-const client = new Client({
-	connectionString: databaseUrl,
-});
+const parsedDatabaseUrl = new URL(databaseUrl);
+const localHosts = new Set(["127.0.0.1", "localhost"]);
+const databaseHost = parsedDatabaseUrl.hostname.replace(/^\[(.*)\]$/, "$1");
+const isLocalDatabase =
+	localHosts.has(databaseHost) ||
+	databaseHost.startsWith("192.168.") ||
+	databaseHost === "::1";
 
-const statements = `
-CREATE TABLE IF NOT EXISTS "user" (
-	"id" text PRIMARY KEY NOT NULL,
-	"name" text NOT NULL,
-	"email" text NOT NULL,
-	"email_verified" boolean DEFAULT false NOT NULL,
-	"image" text,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS "user_email_unique" ON "user" ("email");
-
-CREATE TABLE IF NOT EXISTS "session" (
-	"id" text PRIMARY KEY NOT NULL,
-	"user_id" text NOT NULL,
-	"expires_at" timestamp NOT NULL,
-	"token" text NOT NULL,
-	"ip_address" text,
-	"user_agent" text,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS "session_token_unique" ON "session" ("token");
-CREATE INDEX IF NOT EXISTS "session_user_id_idx" ON "session" ("user_id");
-
-CREATE TABLE IF NOT EXISTS "account" (
-	"id" text PRIMARY KEY NOT NULL,
-	"account_id" text NOT NULL,
-	"provider_id" text NOT NULL,
-	"user_id" text NOT NULL,
-	"access_token" text,
-	"refresh_token" text,
-	"id_token" text,
-	"access_token_expires_at" timestamp,
-	"refresh_token_expires_at" timestamp,
-	"scope" text,
-	"password" text,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS "account_provider_account_unique" ON "account" ("provider_id", "account_id");
-CREATE INDEX IF NOT EXISTS "account_user_id_idx" ON "account" ("user_id");
-
-CREATE TABLE IF NOT EXISTS "verification" (
-	"id" text PRIMARY KEY NOT NULL,
-	"identifier" text NOT NULL,
-	"value" text NOT NULL,
-	"expires_at" timestamp NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
-CREATE INDEX IF NOT EXISTS "verification_identifier_idx" ON "verification" ("identifier");
-`;
-
-try {
-	await client.connect();
-	await client.query(statements);
-} finally {
-	await client.end();
+if (!isLocalDatabase && process.env.PLAYWRIGHT_FORCE_DB_RESET !== "true") {
+	throw new Error(
+		[
+			"Refusing to reset a non-local DATABASE_URL during Playwright setup.",
+			`Received host: ${parsedDatabaseUrl.hostname}`,
+			"Set PLAYWRIGHT_FORCE_DB_RESET=true only when you intend to wipe that database.",
+		].join(" "),
+	);
 }
+
+async function resetPublicSchema() {
+	const client = new Client({
+		connectionString: databaseUrl,
+	});
+
+	try {
+		await client.connect();
+		await client.query(`
+			DROP SCHEMA IF EXISTS public CASCADE;
+			CREATE SCHEMA public;
+			GRANT ALL ON SCHEMA public TO CURRENT_USER;
+			GRANT ALL ON SCHEMA public TO public;
+		`);
+	} finally {
+		await client.end();
+	}
+}
+
+await resetPublicSchema();
+
+execFileSync(
+	"pnpm",
+	["exec", "drizzle-kit", "push", "--config", "drizzle.config.ts", "--force"],
+	{
+		cwd: new URL("..", import.meta.url),
+		stdio: "inherit",
+		env: process.env,
+	},
+);

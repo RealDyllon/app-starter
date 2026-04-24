@@ -1,12 +1,14 @@
 import type { FormEvent } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { navigate, signInEmail, signUpEmail, useStateMock } = vi.hoisted(() => ({
-	navigate: vi.fn(),
-	signInEmail: vi.fn(),
-	signUpEmail: vi.fn(),
-	useStateMock: vi.fn(),
-}));
+const { historyPush, signInEmail, signUpEmail, useStateMock } = vi.hoisted(
+	() => ({
+		historyPush: vi.fn(),
+		signInEmail: vi.fn(),
+		signUpEmail: vi.fn(),
+		useStateMock: vi.fn(),
+	}),
+);
 
 vi.mock("react", async (importOriginal) => {
 	const actual = await importOriginal<typeof import("react")>();
@@ -18,7 +20,11 @@ vi.mock("react", async (importOriginal) => {
 });
 
 vi.mock("@tanstack/react-router", () => ({
-	useNavigate: () => navigate,
+	useRouter: () => ({
+		history: {
+			push: historyPush,
+		},
+	}),
 }));
 
 vi.mock("#/lib/auth-client", () => ({
@@ -55,32 +61,51 @@ vi.mock("#/i18n/messages", () => ({
 type SubmitElement = {
 	props: {
 		onSubmit: (
-			event: Pick<FormEvent<HTMLFormElement>, "preventDefault">,
+			event: Pick<
+				FormEvent<HTMLFormElement>,
+				"currentTarget" | "preventDefault"
+			>,
 		) => Promise<void>;
 	};
 };
 
-function mockState(values: {
-	name?: string;
-	email: string;
-	password: string;
-	isPending?: boolean;
-	error?: string | null;
-}) {
+function mockState(values: { isPending?: boolean; error?: string | null }) {
 	useStateMock
-		.mockImplementationOnce(() => [values.name ?? "", vi.fn()])
-		.mockImplementationOnce(() => [values.email, vi.fn()])
-		.mockImplementationOnce(() => [values.password, vi.fn()])
 		.mockImplementationOnce(() => [values.isPending ?? false, vi.fn()])
 		.mockImplementationOnce(() => [values.error ?? null, vi.fn()]);
 }
 
+function submitEvent(values: {
+	name?: string;
+	email: string;
+	password: string;
+}) {
+	const form = document.createElement("form");
+
+	for (const [name, value] of Object.entries(values)) {
+		if (value === undefined) {
+			continue;
+		}
+
+		const input = document.createElement("input");
+		input.name = name;
+		input.value = value;
+		form.append(input);
+	}
+
+	return {
+		currentTarget: form,
+		preventDefault: vi.fn(),
+	};
+}
+
 async function renderAuthCard(
 	mode: "login" | "signup",
+	redirectTo?: string,
 ): Promise<SubmitElement> {
 	const { default: AuthCard } = await import("#/components/AuthCard");
 
-	return AuthCard({ mode }) as SubmitElement;
+	return AuthCard({ mode, redirectTo }) as SubmitElement;
 }
 
 describe("AuthCard", () => {
@@ -89,35 +114,54 @@ describe("AuthCard", () => {
 		useStateMock.mockReset();
 	});
 
-	it("submits login credentials and navigates to todos", async () => {
-		mockState({
-			email: "user@example.com",
-			password: "password-123",
-		});
+	it("submits login credentials and navigates to the validated redirect target", async () => {
+		mockState({});
 
 		signInEmail.mockResolvedValueOnce({ error: null });
 
-		const element = await renderAuthCard("login");
+		const element = await renderAuthCard("login", "/todos?filter=done");
 
-		await element.props.onSubmit({
-			preventDefault: vi.fn(),
-		});
+		await element.props.onSubmit(
+			submitEvent({
+				email: "user@example.com",
+				password: "password-123",
+			}),
+		);
 
 		expect(signInEmail).toHaveBeenCalledWith({
 			email: "user@example.com",
 			password: "password-123",
-			callbackURL: "/todos",
+			callbackURL: "/todos?filter=done",
 		});
-		expect(navigate).toHaveBeenCalledWith({ to: "/todos" });
+		expect(historyPush).toHaveBeenCalledWith("/todos?filter=done");
+	});
+
+	it("strips URL fragments from Better Auth callbacks while preserving client navigation", async () => {
+		mockState({});
+
+		signInEmail.mockResolvedValueOnce({ error: null });
+
+		const element = await renderAuthCard("login", "/todos?filter=done#latest");
+
+		await element.props.onSubmit(
+			submitEvent({
+				email: "user@example.com",
+				password: "password-123",
+			}),
+		);
+
+		expect(signInEmail).toHaveBeenCalledWith({
+			email: "user@example.com",
+			password: "password-123",
+			callbackURL: "/todos?filter=done",
+		});
+		expect(historyPush).toHaveBeenCalledWith("/todos?filter=done#latest");
 	});
 
 	it("stores auth errors returned by the client", async () => {
 		const setError = vi.fn();
 
 		useStateMock
-			.mockImplementationOnce(() => ["", vi.fn()])
-			.mockImplementationOnce(() => ["user@example.com", vi.fn()])
-			.mockImplementationOnce(() => ["password-123", vi.fn()])
 			.mockImplementationOnce(() => [false, vi.fn()])
 			.mockImplementationOnce(() => [null, setError]);
 
@@ -129,27 +173,30 @@ describe("AuthCard", () => {
 
 		const element = await renderAuthCard("login");
 
-		await element.props.onSubmit({
-			preventDefault: vi.fn(),
-		});
+		await element.props.onSubmit(
+			submitEvent({
+				email: "user@example.com",
+				password: "password-123",
+			}),
+		);
 
 		expect(setError).toHaveBeenCalledWith("Invalid credentials.");
 	});
 
-	it("submits signup credentials and navigates to todos", async () => {
-		mockState({
-			name: "Starter User",
-			email: "new-user@example.com",
-			password: "password-123",
-		});
+	it("submits signup credentials and navigates to todos by default", async () => {
+		mockState({});
 
 		signUpEmail.mockResolvedValueOnce({ error: null });
 
 		const element = await renderAuthCard("signup");
 
-		await element.props.onSubmit({
-			preventDefault: vi.fn(),
-		});
+		await element.props.onSubmit(
+			submitEvent({
+				name: "Starter User",
+				email: "new-user@example.com",
+				password: "password-123",
+			}),
+		);
 
 		expect(signUpEmail).toHaveBeenCalledWith({
 			name: "Starter User",
@@ -157,6 +204,64 @@ describe("AuthCard", () => {
 			password: "password-123",
 			callbackURL: "/todos",
 		});
-		expect(navigate).toHaveBeenCalledWith({ to: "/todos" });
+		expect(historyPush).toHaveBeenCalledWith("/todos");
+	});
+
+	it("ignores non-local redirect targets", async () => {
+		mockState({});
+
+		signInEmail.mockResolvedValueOnce({ error: null });
+
+		const element = await renderAuthCard("login", "https://example.com/todos");
+
+		await element.props.onSubmit(
+			submitEvent({
+				email: "user@example.com",
+				password: "password-123",
+			}),
+		);
+
+		expect(signInEmail).toHaveBeenCalledWith({
+			email: "user@example.com",
+			password: "password-123",
+			callbackURL: "/todos",
+		});
+		expect(historyPush).toHaveBeenCalledWith("/todos");
+	});
+
+	it("rejects protocol-relative targets after URL normalization", async () => {
+		const { sanitizeRedirectTarget } = await import("#/components/AuthCard");
+
+		expect(sanitizeRedirectTarget("//evil.com")).toBeUndefined();
+		expect(sanitizeRedirectTarget("/..//evil.com")).toBeUndefined();
+	});
+
+	it("converts the current location href into a local redirect target", async () => {
+		const { sanitizeCurrentLocationRedirect } = await import(
+			"#/components/AuthCard"
+		);
+
+		expect(
+			sanitizeCurrentLocationRedirect(
+				"https://app.local/todos?filter=done#latest",
+			),
+		).toBe("/todos?filter=done#latest");
+		expect(
+			sanitizeCurrentLocationRedirect(
+				"https://app.local/..//evil.com?filter=done#latest",
+			),
+		).toBeUndefined();
+	});
+
+	it("converts redirect targets into Better Auth-compatible callback targets", async () => {
+		const { sanitizeAuthCallbackTarget } = await import(
+			"#/components/AuthCard"
+		);
+
+		expect(sanitizeAuthCallbackTarget("/todos?filter=done#latest")).toBe(
+			"/todos?filter=done",
+		);
+		expect(sanitizeAuthCallbackTarget("/todos#latest")).toBe("/todos");
+		expect(sanitizeAuthCallbackTarget("/..//evil.com#latest")).toBeUndefined();
 	});
 });
