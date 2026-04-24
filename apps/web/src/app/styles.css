@@ -210,7 +210,8 @@ code {
 	font-weight: 600;
 }
 
-.form-field input {
+.form-field input,
+.form-field select {
 	width: 100%;
 	border: 1px solid var(--card-border);
 	border-radius: 0.75rem;
@@ -221,9 +222,14 @@ code {
 	box-sizing: border-box;
 }
 
-.form-field input:focus {
+.form-field input:focus,
+.form-field select:focus {
 	outline: 2px solid rgba(15, 118, 110, 0.18);
 	border-color: var(--accent);
+}
+
+.form-field small {
+	line-height: 1.4;
 }
 
 .form-actions {
@@ -273,6 +279,105 @@ code {
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	font-size: 0.75rem;
+}
+
+.example-output {
+	margin: 1rem 0 0;
+	overflow: auto;
+	border: 1px solid var(--card-border);
+	border-radius: 0.75rem;
+	background: #f8fafc;
+	padding: 1rem;
+	color: var(--sea-ink);
+	font-size: 0.9rem;
+}
+
+.table-search {
+	margin-top: 1.5rem;
+}
+
+.table-shell {
+	margin-top: 1rem;
+	overflow-x: auto;
+	border: 1px solid var(--card-border);
+	border-radius: 0.8rem;
+	background: #fff;
+}
+
+.table-shell table {
+	width: 100%;
+	border-collapse: collapse;
+	min-width: 36rem;
+}
+
+.table-shell th,
+.table-shell td {
+	border-bottom: 1px solid var(--line);
+	padding: 0.85rem 1rem;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.table-shell tr:last-child td {
+	border-bottom: 0;
+}
+
+.table-shell th {
+	background: #f8fafc;
+	color: var(--sea-ink-soft);
+	font-size: 0.78rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.table-shell th button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	padding: 0;
+	cursor: pointer;
+}
+
+.status-pill {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 999px;
+	background: var(--accent-soft);
+	color: #134e4a;
+	padding: 0.25rem 0.65rem;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.store-grid {
+	margin-top: 1.5rem;
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+.store-grid article {
+	display: grid;
+	gap: 0.35rem;
+	border: 1px solid var(--card-border);
+	border-radius: 0.75rem;
+	background: #fafafa;
+	padding: 1rem;
+}
+
+.store-grid span {
+	color: var(--text-muted);
+	font-size: 0.82rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.store-grid strong {
+	font-size: 1.15rem;
 }
 
 @media (max-width: 640px) {
