@@ -74,6 +74,13 @@ export default function Header() {
 					>
 						{m.nav_todos()}
 					</Link>
+					<Link
+						to="/examples/form"
+						className="nav-link"
+						activeProps={{ className: "nav-link is-active" }}
+					>
+						Examples
+					</Link>
 					<a
 						href="https://tanstack.com/start/latest/docs/framework/react/overview"
 						className="nav-link"

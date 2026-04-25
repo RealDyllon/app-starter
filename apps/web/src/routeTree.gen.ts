@@ -14,6 +14,9 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExamplesTableRouteImport } from './routes/examples/table'
+import { Route as ExamplesStoreRouteImport } from './routes/examples/store'
+import { Route as ExamplesFormRouteImport } from './routes/examples/form'
 import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -43,6 +46,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamplesTableRoute = ExamplesTableRouteImport.update({
+  id: '/examples/table',
+  path: '/examples/table',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesStoreRoute = ExamplesStoreRouteImport.update({
+  id: '/examples/store',
+  path: '/examples/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesFormRoute = ExamplesFormRouteImport.update({
+  id: '/examples/form',
+  path: '/examples/form',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
   path: '/api/$',
@@ -66,6 +84,9 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
   '/api/$': typeof ApiSplatRoute
+  '/examples/form': typeof ExamplesFormRoute
+  '/examples/store': typeof ExamplesStoreRoute
+  '/examples/table': typeof ExamplesTableRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
@@ -76,6 +97,9 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
   '/api/$': typeof ApiSplatRoute
+  '/examples/form': typeof ExamplesFormRoute
+  '/examples/store': typeof ExamplesStoreRoute
+  '/examples/table': typeof ExamplesTableRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
@@ -87,6 +111,9 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/todos': typeof TodosRoute
   '/api/$': typeof ApiSplatRoute
+  '/examples/form': typeof ExamplesFormRoute
+  '/examples/store': typeof ExamplesStoreRoute
+  '/examples/table': typeof ExamplesTableRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
@@ -99,6 +126,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/todos'
     | '/api/$'
+    | '/examples/form'
+    | '/examples/store'
+    | '/examples/table'
     | '/api/auth/$'
     | '/api/rpc/$'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +139,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/todos'
     | '/api/$'
+    | '/examples/form'
+    | '/examples/store'
+    | '/examples/table'
     | '/api/auth/$'
     | '/api/rpc/$'
   id:
@@ -119,6 +152,9 @@ export interface FileRouteTypes {
     | '/signup'
     | '/todos'
     | '/api/$'
+    | '/examples/form'
+    | '/examples/store'
+    | '/examples/table'
     | '/api/auth/$'
     | '/api/rpc/$'
   fileRoutesById: FileRoutesById
@@ -130,6 +166,9 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   TodosRoute: typeof TodosRoute
   ApiSplatRoute: typeof ApiSplatRoute
+  ExamplesFormRoute: typeof ExamplesFormRoute
+  ExamplesStoreRoute: typeof ExamplesStoreRoute
+  ExamplesTableRoute: typeof ExamplesTableRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
@@ -171,6 +210,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/examples/table': {
+      id: '/examples/table'
+      path: '/examples/table'
+      fullPath: '/examples/table'
+      preLoaderRoute: typeof ExamplesTableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/store': {
+      id: '/examples/store'
+      path: '/examples/store'
+      fullPath: '/examples/store'
+      preLoaderRoute: typeof ExamplesStoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/form': {
+      id: '/examples/form'
+      path: '/examples/form'
+      fullPath: '/examples/form'
+      preLoaderRoute: typeof ExamplesFormRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/$': {
       id: '/api/$'
       path: '/api/$'
@@ -202,6 +262,9 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   TodosRoute: TodosRoute,
   ApiSplatRoute: ApiSplatRoute,
+  ExamplesFormRoute: ExamplesFormRoute,
+  ExamplesStoreRoute: ExamplesStoreRoute,
+  ExamplesTableRoute: ExamplesTableRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
 }

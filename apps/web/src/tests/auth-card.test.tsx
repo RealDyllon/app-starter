@@ -1,12 +1,14 @@
 import type { FormEvent } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { navigate, signInEmail, signUpEmail, useStateMock } = vi.hoisted(() => ({
-	navigate: vi.fn(),
-	signInEmail: vi.fn(),
-	signUpEmail: vi.fn(),
-	useStateMock: vi.fn(),
-}));
+const { historyPush, signInEmail, signUpEmail, useStateMock } = vi.hoisted(
+	() => ({
+		historyPush: vi.fn(),
+		signInEmail: vi.fn(),
+		signUpEmail: vi.fn(),
+		useStateMock: vi.fn(),
+	}),
+);
 
 vi.mock("react", async (importOriginal) => {
 	const actual = await importOriginal<typeof import("react")>();
@@ -18,7 +20,11 @@ vi.mock("react", async (importOriginal) => {
 });
 
 vi.mock("@tanstack/react-router", () => ({
-	useNavigate: () => navigate,
+	useRouter: () => ({
+		history: {
+			push: historyPush,
+		},
+	}),
 }));
 
 vi.mock("#/lib/auth-client", () => ({
@@ -127,7 +133,7 @@ describe("AuthCard", () => {
 			password: "password-123",
 			callbackURL: "/todos?filter=done",
 		});
-		expect(navigate).toHaveBeenCalledWith({ to: "/todos?filter=done" });
+		expect(historyPush).toHaveBeenCalledWith("/todos?filter=done");
 	});
 
 	it("strips URL fragments from Better Auth callbacks while preserving client navigation", async () => {
@@ -149,9 +155,7 @@ describe("AuthCard", () => {
 			password: "password-123",
 			callbackURL: "/todos?filter=done",
 		});
-		expect(navigate).toHaveBeenCalledWith({
-			to: "/todos?filter=done#latest",
-		});
+		expect(historyPush).toHaveBeenCalledWith("/todos?filter=done#latest");
 	});
 
 	it("stores auth errors returned by the client", async () => {
@@ -200,7 +204,7 @@ describe("AuthCard", () => {
 			password: "password-123",
 			callbackURL: "/todos",
 		});
-		expect(navigate).toHaveBeenCalledWith({ to: "/todos" });
+		expect(historyPush).toHaveBeenCalledWith("/todos");
 	});
 
 	it("ignores non-local redirect targets", async () => {
@@ -222,7 +226,7 @@ describe("AuthCard", () => {
 			password: "password-123",
 			callbackURL: "/todos",
 		});
-		expect(navigate).toHaveBeenCalledWith({ to: "/todos" });
+		expect(historyPush).toHaveBeenCalledWith("/todos");
 	});
 
 	it("rejects protocol-relative targets after URL normalization", async () => {

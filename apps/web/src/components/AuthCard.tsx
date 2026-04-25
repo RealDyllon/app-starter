@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import AuthCardView from "#/components/AuthCardView";
 import { m } from "#/i18n/messages";
@@ -86,7 +86,7 @@ function getErrorMessage(error: unknown) {
 }
 
 export default function AuthCard({ mode, redirectTo }: AuthCardProps) {
-	const navigate = useNavigate();
+	const router = useRouter();
 	const [isPending, setIsPending] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const redirectTarget = sanitizeRedirectTarget(redirectTo);
@@ -124,7 +124,7 @@ export default function AuthCard({ mode, redirectTo }: AuthCardProps) {
 				return;
 			}
 
-			await navigate({ to: destination });
+			router.history.push(destination);
 		} catch (caughtError) {
 			setError(getErrorMessage(caughtError));
 		} finally {
