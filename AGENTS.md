@@ -1,8 +1,8 @@
 # Agent Guide
 
-## Intent Setup
+## Agent Skills Setup
 
-This repository is wired for TanStack Intent skill mappings.
+This repository has project-local Agent Skills in `.agents/skills`.
 
 Exact CLI commands run:
 
@@ -12,21 +12,14 @@ Exact CLI commands run:
 Agent rule for architectural or library-specific work:
 
 - Do not guess patterns that are covered by shipped TanStack skills.
-- Load the matching skill file first, then implement.
+- Load the matching project-local skill from `.agents/skills` first, then implement.
+- TanStack Router skills are named `tanstack-router-core*`.
+- TanStack Start skills are named `tanstack-start-core*`.
 
 <!-- intent-skills:start -->
-# Skill mappings - when working in these areas, load the linked skill file into context.
-skills:
-  - task: "making architectural or library-specific changes in TanStack Start app structure and runtime boundaries"
-    load: "apps/web/node_modules/@tanstack/start-client-core/skills/start-core/SKILL.md"
-  - task: "editing API endpoints in file routes with createFileRoute server handlers"
-    load: "apps/web/node_modules/@tanstack/start-client-core/skills/start-core/server-routes/SKILL.md"
-  - task: "changing TanStack Router route structure, createFileRoute paths, navigation, and URL behavior"
-    load: "apps/web/node_modules/@tanstack/router-core/skills/router-core/SKILL.md"
-  - task: "working on TanStack DB collections, preload patterns, and React live-query usage"
-    load: "apps/web/node_modules/@tanstack/db/skills/meta-framework/SKILL.md"
-  - task: "changing devtools wiring or Vite devtools plugin behavior/order"
-    load: "apps/web/node_modules/@tanstack/devtools-vite/skills/devtools-vite-plugin/SKILL.md"
+# TanStack Router and TanStack Start skills are installed as project-local
+# Agent Skills under `.agents/skills`; do not duplicate their node_modules
+# skill paths here.
 <!-- intent-skills:end -->
 
 ## Durable Project Context
@@ -81,4 +74,4 @@ Next steps:
 
 - Decide whether `apps/web/src/tanstack-db/index.ts` replaces the removed `db-collections` module and update imports accordingly.
 - Add a small developer note or script for regenerating `routeTree.gen.ts` after route refactors.
-- If additional TanStack areas are adopted (AI tooling, server functions middleware, deployment targets), extend the `intent-skills` block with the exact shipped skill path.
+- If additional TanStack areas are adopted, install or update project-local Agent Skills under `.agents/skills` and reference them by skill name.
