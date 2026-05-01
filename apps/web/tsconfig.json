@@ -16,7 +16,6 @@
 		"allowImportingTsExtensions": true,
 		"allowJs": true,
 		"resolveJsonModule": true,
-		"verbatimModuleSyntax": true,
 		"noEmit": true,
 
 		/* Linting */

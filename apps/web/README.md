@@ -53,7 +53,7 @@ Storybook is present for component work, but the starter’s primary supported p
 
 ## Data and migrations
 
-App data lives in `src/server/db/schema.ts` and currently includes the starter `todos` table.
+App data lives in `src/server/db` and currently includes the starter `todos` table.
 
 Generate SQL migrations:
 
@@ -108,7 +108,15 @@ pnpm test:e2e
 ## Architecture notes
 
 - TanStack Start code is isomorphic by default. Keep DB access and auth server code on the server side only.
-- The shared shell is mounted in `src/routes/__root.tsx` and must keep `<Scripts />`.
-- `src/lib/orpc-client.ts` is the client entrypoint for the `/todos` slice and future typed API calls.
-- `src/server/todos.ts` is the server-side persistence layer for the sample todo feature.
-- Better Auth lives in `src/server/auth/index.ts`.
+- The root document shell is in `src/routes/__root.tsx` and must keep `<Scripts />`.
+- oRPC server code lives under `src/server/orpc`.
+- DB code lives under `src/server/db`.
+- Better Auth lives in `src/server/auth`.
+
+## Docker
+
+Build from the monorepo root:
+
+```bash
+docker build -f apps/web/Dockerfile -t app-starter-web .
+```

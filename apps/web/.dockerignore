@@ -7,3 +7,5 @@ coverage
 node_modules
 npm-debug.log*
 storybook-static
+test-results
+playwright-report
