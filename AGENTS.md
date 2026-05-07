@@ -2,7 +2,7 @@
 
 ## Agent Skills Setup
 
-This repository uses project-local Agent Skills installed by TanStack Intent.
+This repository uses project-local Agent Skills sourced from TanStack Intent and shipped TanStack package skills.
 
 Exact CLI commands run:
 
@@ -15,6 +15,8 @@ Agent rule for architectural or library-specific work:
 - Load the matching skill by name first, then implement.
 - TanStack Router skills are named `tanstack-router-core*`.
 - TanStack Start skills are named `tanstack-start-core*`.
+- TanStack DB skills are named `db-core*` and `meta-framework`.
+- TanStack Devtools Vite skill is named `devtools-vite-plugin`.
 - Do not maintain filesystem links to generated or installed skill files in this guide.
 
 <!-- intent-skills:start -->
