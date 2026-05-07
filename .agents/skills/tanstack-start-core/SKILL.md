@@ -56,8 +56,8 @@ Need to deploy, configure SSR, or prerender?
 ### 1. Install Dependencies
 
 ```bash
-npm i @tanstack/react-start @tanstack/react-router react react-dom
-npm i -D vite @vitejs/plugin-react typescript
+pnpm add @tanstack/react-start @tanstack/react-router react react-dom
+pnpm add -D vite @vitejs/plugin-react typescript
 ```
 
 ### 2. Configure Vite
