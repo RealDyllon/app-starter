@@ -11,8 +11,8 @@ type: sub-skill
 library: tanstack-router
 library_version: '1.166.2'
 requires:
-  - router-core
-  - router-core/data-loading
+  - tanstack-router-core
+  - tanstack-router-core-data-loading
 sources:
   - TanStack/router:docs/router/guide/ssr.md
   - TanStack/router:docs/router/guide/document-head-management.md
