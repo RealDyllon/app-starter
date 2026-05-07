@@ -35,16 +35,20 @@ npm install zod @tanstack/zod-adapter
 ```tsx
 // src/routes/products.tsx
 import { createFileRoute } from '@tanstack/react-router'
+import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
 
 const productSearchSchema = z.object({
-  page: z.number().default(1).catch(1),
+  page: fallback(z.number().default(1), 1),
   filter: z.string().default(''),
-  sort: z.enum(['newest', 'oldest', 'price']).default('newest').catch('newest'),
+  sort: fallback(
+    z.enum(['newest', 'oldest', 'price']).default('newest'),
+    'newest',
+  ),
 })
 
 export const Route = createFileRoute('/products')({
-  validateSearch: productSearchSchema,
+  validateSearch: zodValidator(productSearchSchema),
   component: ProductsPage,
 })
 
@@ -165,14 +169,15 @@ Parent route search params are automatically merged into child routes:
 ```tsx
 // src/routes/shop.tsx — parent defines shared params
 import { createFileRoute } from '@tanstack/react-router'
+import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
 
 const shopSearchSchema = z.object({
-  currency: z.enum(['USD', 'EUR']).default('USD').catch('USD'),
+  currency: fallback(z.enum(['USD', 'EUR']).default('USD'), 'USD'),
 })
 
 export const Route = createFileRoute('/shop')({
-  validateSearch: shopSearchSchema,
+  validateSearch: zodValidator(shopSearchSchema),
 })
 ```
 
