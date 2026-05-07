@@ -10,7 +10,7 @@ type: sub-skill
 library: tanstack-router
 library_version: '1.166.2'
 requires:
-  - router-core
+  - tanstack-router-core
 sources:
   - TanStack/router:docs/router/guide/type-safety.md
   - TanStack/router:docs/router/guide/type-utilities.md
