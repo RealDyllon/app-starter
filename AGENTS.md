@@ -2,7 +2,7 @@
 
 ## Agent Skills Setup
 
-This repository has project-local Agent Skills in `.agents/skills`.
+This repository uses project-local Agent Skills installed by TanStack Intent.
 
 Exact CLI commands run:
 
@@ -12,14 +12,14 @@ Exact CLI commands run:
 Agent rule for architectural or library-specific work:
 
 - Do not guess patterns that are covered by shipped TanStack skills.
-- Load the matching project-local skill from `.agents/skills` first, then implement.
+- Load the matching skill by name first, then implement.
 - TanStack Router skills are named `tanstack-router-core*`.
 - TanStack Start skills are named `tanstack-start-core*`.
+- Do not maintain filesystem links to generated or installed skill files in this guide.
 
 <!-- intent-skills:start -->
-# TanStack Router and TanStack Start skills are installed as project-local
-# Agent Skills under `.agents/skills`; do not duplicate their node_modules
-# skill paths here.
+# Skill mappings are intentionally omitted. Use Agent Skills by name via
+# discovery; do not add node_modules or local filesystem skill paths here.
 <!-- intent-skills:end -->
 
 ## Durable Project Context
@@ -74,4 +74,4 @@ Next steps:
 
 - Decide whether `apps/web/src/tanstack-db/index.ts` replaces the removed `db-collections` module and update imports accordingly.
 - Add a small developer note or script for regenerating `routeTree.gen.ts` after route refactors.
-- If additional TanStack areas are adopted, install or update project-local Agent Skills under `.agents/skills` and reference them by skill name.
+- If additional TanStack areas are adopted, install or update project-local Agent Skills and reference them by skill name.
