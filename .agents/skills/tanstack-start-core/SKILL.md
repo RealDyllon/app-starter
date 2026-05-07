@@ -162,8 +162,14 @@ function HomePage() {
 // WRONG — route generation and server function compilation fail
 plugins: [react(), tanstackStart()]
 
-// CORRECT — Start plugin must come first
+// CORRECT — Start plugin must come before React
 plugins: [tanstackStart(), react()]
+```
+
+If `@tanstack/devtools-vite` is installed, keep `devtools()` first and place `tanstackStart()` before `viteReact()`:
+
+```ts
+plugins: [devtools(), tanstackStart(), viteReact()]
 ```
 
 ### 2. HIGH: Enabling verbatimModuleSyntax in tsconfig
