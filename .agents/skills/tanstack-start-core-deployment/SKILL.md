@@ -153,7 +153,7 @@ Decide SSR at runtime based on params/search:
 ```tsx
 export const Route = createFileRoute('/docs/$docType/$docId')({
   ssr: ({ params }) => {
-    if (params.status === 'success' && params.value.docType === 'sheet') {
+    if (params.docType === 'sheet') {
       return false
     }
   },
