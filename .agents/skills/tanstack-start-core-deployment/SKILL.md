@@ -80,7 +80,7 @@ Deploy: `npx netlify deploy`
 ### Nitro (Vercel, Railway, Node.js, Docker)
 
 ```bash
-npm install nitro@npm:nitro-nightly@latest
+pnpm add -D nitro
 ```
 
 ```ts
