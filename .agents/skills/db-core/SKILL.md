@@ -37,22 +37,24 @@ hooks. In framework projects, import from the framework package directly.
 | Preload collections in route loaders             | meta-framework/SKILL.md                              |
 | Add offline transaction queueing                 | offline/SKILL.md (in @tanstack/offline-transactions) |
 
-For framework-specific hooks:
+For framework-specific hooks, use the framework package APIs directly. This repo
+currently installs local DB skills for `db-core*` and `meta-framework`; it does
+not include separate framework-specific DB skills.
 
-| Framework | Read                |
-| --------- | ------------------- |
-| React     | react-db/SKILL.md   |
-| Vue       | vue-db/SKILL.md     |
-| Svelte    | svelte-db/SKILL.md  |
-| Solid     | solid-db/SKILL.md   |
-| Angular   | angular-db/SKILL.md |
+| Framework | Package                  | Hook/API examples                                      |
+| --------- | ------------------------ | ------------------------------------------------------ |
+| React     | `@tanstack/react-db`     | `useLiveQuery`, `useLiveSuspenseQuery`, `useCollection` |
+| Vue       | `@tanstack/vue-db`       | framework-specific live query composables              |
+| Svelte    | `@tanstack/svelte-db`    | framework-specific live query stores                   |
+| Solid     | `@tanstack/solid-db`     | framework-specific live query primitives               |
+| Angular   | `@tanstack/angular-db`   | Angular DB APIs; import query operators from `@tanstack/db` |
 
 ## Quick Decision Tree
 
 - Setting up for the first time? → db-core/collection-setup
 - Building queries on collection data? → db-core/live-queries
 - Writing data / handling optimistic state? → db-core/mutations-optimistic
-- Using React hooks? → react-db
+- Using React hooks? → use `@tanstack/react-db` APIs with `db-core/live-queries`
 - Preloading in route loaders (Start, Next, Remix)? → meta-framework
 - Building an adapter for a new backend? → db-core/custom-adapter
 - Persisting collections to SQLite? → db-core/persistence

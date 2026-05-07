@@ -486,7 +486,9 @@ The query builder looks like SQL but has constraints that SQL does not:
 
 These constraints exist because the underlying d2ts differential dataflow engine requires them for correct incremental view maintenance.
 
-See also: react-db/SKILL.md for React hooks (`useLiveQuery`, `useLiveSuspenseQuery`, `useLiveInfiniteQuery`).
+See also: `@tanstack/react-db` for React hooks (`useLiveQuery`,
+`useLiveSuspenseQuery`, `useLiveInfiniteQuery`). No separate local React DB
+skill is installed in this repo.
 
 ## References
 
