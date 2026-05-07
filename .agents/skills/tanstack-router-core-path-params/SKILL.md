@@ -7,7 +7,7 @@ description: >-
   i18n locale patterns.
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
 sources:

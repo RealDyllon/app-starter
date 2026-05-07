@@ -8,7 +8,7 @@ description: >-
   linkOptions helper, scroll restoration, MatchRoute.
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
 sources:
@@ -444,5 +444,5 @@ When you pass `search` as a plain object, it replaces all search params. Use the
 
 ## Cross-References
 
-- See also: **router-core/search-params/SKILL.md** — Link `search` prop interacts with search param validation
-- See also: **router-core/type-safety/SKILL.md** — `from` narrowing improves type inference on Link
+- See also: **tanstack-router-core-search-params/SKILL.md** — Link `search` prop interacts with search param validation
+- See also: **tanstack-router-core-type-safety/SKILL.md** — `from` narrowing improves type inference on Link

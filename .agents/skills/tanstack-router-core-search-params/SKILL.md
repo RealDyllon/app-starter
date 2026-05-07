@@ -7,7 +7,7 @@ description: >-
   inheritance, loaderDeps for cache keys, reading and writing search params.
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
 sources:
@@ -29,7 +29,7 @@ TanStack Router treats search params as JSON-first application state. They are a
 ## Setup: Zod Adapter (Recommended)
 
 ```bash
-npm install zod @tanstack/zod-adapter
+pnpm add zod @tanstack/zod-adapter
 ```
 
 ```tsx
@@ -278,7 +278,7 @@ const router = createRouter({
 
 ```tsx
 export const Route = createFileRoute('/products')({
-  validateSearch: productSearchSchema,
+  validateSearch: zodValidator(productSearchSchema),
   // Pick ONLY the params the loader needs — not the entire search object
   loaderDeps: ({ search }) => ({ page: search.page }),
   loader: async ({ deps }) => {

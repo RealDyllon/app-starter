@@ -19,10 +19,7 @@ Agent rule for architectural or library-specific work:
 - TanStack Devtools Vite skill is named `devtools-vite-plugin`.
 - Do not maintain filesystem links to generated or installed skill files in this guide.
 
-<!-- intent-skills:start -->
-# Skill mappings are intentionally omitted. Use Agent Skills by name via
-# discovery; do not add node_modules or local filesystem skill paths here.
-<!-- intent-skills:end -->
+Skill mappings are intentionally omitted. Use Agent Skills by name via discovery; do not add node_modules or local filesystem skill paths here.
 
 ## Durable Project Context
 

@@ -8,7 +8,7 @@ description: >-
   safety (VITE_ prefix, process.env).
 type: sub-skill
 library: tanstack-start
-library_version: '1.166.2'
+library_version: '1.167.42'
 requires:
   - tanstack-start-core
 sources:
@@ -298,5 +298,5 @@ function CurrentTime() {
 
 ## Cross-References
 
-- [start-core/server-functions](../tanstack-start-core-server-functions/SKILL.md) — the primary server boundary
-- [start-core/deployment](../tanstack-start-core-deployment/SKILL.md) — deployment target affects execution
+- [tanstack-start-core-server-functions](../tanstack-start-core-server-functions/SKILL.md) — the primary server boundary
+- [tanstack-start-core-deployment](../tanstack-start-core-deployment/SKILL.md) — deployment target affects execution

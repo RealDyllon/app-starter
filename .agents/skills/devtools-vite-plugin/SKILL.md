@@ -6,10 +6,10 @@ description: >
   server-to-client, levels), enhanced logging, server event bus (port, host,
   HTTPS), production stripping (removeDevtoolsOnBuild), editor integration
   (launch-editor, custom editor.open). Must be FIRST plugin in Vite config.
-  Vite ^6 || ^7 only.
+  Supports Vite ^6, ^7, and ^8.
 type: core
 library: tanstack-devtools
-library_version: '0.10.12'
+library_version: '0.6.0'
 sources:
   - 'TanStack/devtools:docs/vite-plugin.md'
   - 'TanStack/devtools:docs/source-inspector.md'

@@ -7,7 +7,7 @@ description: >-
   splitBehavior programmatic config, critical vs non-critical properties.
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
 sources:
@@ -318,5 +318,5 @@ const data = routeApi.useLoaderData()
 
 ## Cross-References
 
-- **router-core/data-loading** — Loader splitting decisions affect data loading performance. Splitting the loader adds latency before data can be fetched.
-- **router-core/type-safety** — `getRouteApi` is the type-safe way to access hooks from split files.
+- **tanstack-router-core-data-loading** — Loader splitting decisions affect data loading performance. Splitting the loader adds latency before data can be fetched.
+- **tanstack-router-core-type-safety** — `getRouteApi` is the type-safe way to access hooks from split files.

@@ -8,7 +8,7 @@ description: >-
   helpers, file naming for API routes.
 type: sub-skill
 library: tanstack-start
-library_version: '1.166.2'
+library_version: '1.167.42'
 requires:
   - tanstack-start-core
 sources:
@@ -276,5 +276,5 @@ const body = await request.json()
 
 ## Cross-References
 
-- [start-core/middleware](../tanstack-start-core-middleware/SKILL.md) — middleware for server routes
-- [start-core/server-functions](../tanstack-start-core-server-functions/SKILL.md) — alternative for RPC-style calls
+- [tanstack-start-core-middleware](../tanstack-start-core-middleware/SKILL.md) — middleware for server routes
+- [tanstack-start-core-server-functions](../tanstack-start-core-server-functions/SKILL.md) — alternative for RPC-style calls

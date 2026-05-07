@@ -7,7 +7,7 @@ description: >-
   masking (mask option, createRouteMask, unmaskOnReload).
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
 sources:
@@ -431,5 +431,5 @@ function ErrorFallback({ error }: { error: Error; reset: () => void }) {
 
 ## Cross-References
 
-- **router-core/data-loading** — `notFound()` thrown in loaders interacts with error boundaries and loader data availability. `errorComponent` retry requires `router.invalidate()`.
-- **router-core/type-safety** — `notFoundComponent` data is typed as `unknown`; validate before use.
+- **tanstack-router-core-data-loading** — `notFound()` thrown in loaders interacts with error boundaries and loader data availability. `errorComponent` retry requires `router.invalidate()`.
+- **tanstack-router-core-type-safety** — `notFoundComponent` data is typed as `unknown`; validate before use.

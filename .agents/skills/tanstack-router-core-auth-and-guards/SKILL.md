@@ -8,7 +8,7 @@ description: >-
   for auth state.
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
   - tanstack-router-core-data-loading
@@ -455,4 +455,4 @@ Place protected routes as children of the `_authenticated` layout route. Public 
 
 ## Cross-References
 
-- See also: **router-core/data-loading/SKILL.md** — `beforeLoad` runs before `loader`; auth context flows into loader via route context
+- See also: **tanstack-router-core-data-loading/SKILL.md** — `beforeLoad` runs before `loader`; auth context flows into loader via route context

@@ -8,7 +8,7 @@ description: >-
   enforcement, fetch override precedence.
 type: sub-skill
 library: tanstack-start
-library_version: '1.166.2'
+library_version: '1.167.42'
 requires:
   - tanstack-start-core
   - tanstack-start-core-server-functions
@@ -361,5 +361,5 @@ createMiddleware({ type: 'function' })
 
 ## Cross-References
 
-- [start-core/server-functions](../tanstack-start-core-server-functions/SKILL.md) — what middleware wraps
-- [start-core/server-routes](../tanstack-start-core-server-routes/SKILL.md) — middleware on API endpoints
+- [tanstack-start-core-server-functions](../tanstack-start-core-server-functions/SKILL.md) — what middleware wraps
+- [tanstack-start-core-server-routes](../tanstack-start-core-server-routes/SKILL.md) — middleware on API endpoints

@@ -176,7 +176,7 @@ const userSearchSchema = paginationSchema.merge(sortSchema).extend({
 Valibot 1.0+ implements Standard Schema. No adapter wrapper needed — pass the schema directly to `validateSearch`. The `@tanstack/valibot-adapter` is optional and only needed for explicit input/output type control.
 
 ```bash
-npm install valibot
+pnpm add valibot
 ```
 
 ```tsx
@@ -243,7 +243,7 @@ export const Route = createFileRoute('/items')({
 ArkType 2.0-rc+ implements Standard Schema. No adapter needed — pass the type directly to `validateSearch`. The `@tanstack/arktype-adapter` is optional and only needed for explicit input/output type control.
 
 ```bash
-npm install arktype
+pnpm add arktype
 ```
 
 ```tsx

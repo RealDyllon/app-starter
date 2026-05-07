@@ -7,7 +7,7 @@ description: >-
   tsconfig configuration. Entry point for all Start skills.
 type: core
 library: tanstack-start
-library_version: '1.166.2'
+library_version: '1.167.42'
 sources:
   - TanStack/router:docs/start/framework/react/build-from-scratch.md
   - TanStack/router:docs/start/framework/react/quick-start.md
@@ -26,29 +26,29 @@ TanStack Start is a full-stack React framework built on TanStack Router and Vite
 
 | Task                                         | Sub-Skill                                                           |
 | -------------------------------------------- | ------------------------------------------------------------------- |
-| Type-safe RPCs, data fetching, mutations     | [start-core/server-functions/SKILL.md](../tanstack-start-core-server-functions/SKILL.md) |
-| Request/function middleware, context, auth   | [start-core/middleware/SKILL.md](../tanstack-start-core-middleware/SKILL.md)             |
-| Isomorphic execution, environment boundaries | [start-core/execution-model/SKILL.md](../tanstack-start-core-execution-model/SKILL.md)   |
-| REST API endpoints alongside app routes      | [start-core/server-routes/SKILL.md](../tanstack-start-core-server-routes/SKILL.md)       |
-| Hosting, SSR modes, prerendering, SEO        | [start-core/deployment/SKILL.md](../tanstack-start-core-deployment/SKILL.md)             |
+| Type-safe RPCs, data fetching, mutations     | [tanstack-start-core-server-functions/SKILL.md](../tanstack-start-core-server-functions/SKILL.md) |
+| Request/function middleware, context, auth   | [tanstack-start-core-middleware/SKILL.md](../tanstack-start-core-middleware/SKILL.md)             |
+| Isomorphic execution, environment boundaries | [tanstack-start-core-execution-model/SKILL.md](../tanstack-start-core-execution-model/SKILL.md)   |
+| REST API endpoints alongside app routes      | [tanstack-start-core-server-routes/SKILL.md](../tanstack-start-core-server-routes/SKILL.md)       |
+| Hosting, SSR modes, prerendering, SEO        | [tanstack-start-core-deployment/SKILL.md](../tanstack-start-core-deployment/SKILL.md)             |
 
 ## Quick Decision Tree
 
 ```text
 Need to run code exclusively on the server (DB, secrets)?
-  → start-core/server-functions
+  → tanstack-start-core-server-functions
 
 Need auth checks, logging, or shared logic across server functions?
-  → start-core/middleware
+  → tanstack-start-core-middleware
 
 Need to understand where code runs (server vs client)?
-  → start-core/execution-model
+  → tanstack-start-core-execution-model
 
 Need a REST API endpoint (GET/POST/PUT/DELETE)?
-  → start-core/server-routes
+  → tanstack-start-core-server-routes
 
 Need to deploy, configure SSR, or prerender?
-  → start-core/deployment
+  → tanstack-start-core-deployment
 ```
 
 ## Project Setup
@@ -207,4 +207,4 @@ function RootComponent() {
 
 ## Version Note
 
-This skill targets `@tanstack/react-start` v1.166.2 and `@tanstack/start-client-core` v1.166.2.
+This skill targets the repo lockfile versions: `@tanstack/react-start` v1.167.42 and `@tanstack/start-client-core` v1.167.17.

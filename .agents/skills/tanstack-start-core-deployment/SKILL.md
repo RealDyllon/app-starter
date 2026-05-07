@@ -7,7 +7,7 @@ description: >-
   head management.
 type: sub-skill
 library: tanstack-start
-library_version: '1.166.2'
+library_version: '1.167.42'
 requires:
   - tanstack-start-core
 sources:
@@ -95,7 +95,7 @@ export default defineConfig({
 })
 ```
 
-Build and start: `npm run build && node .output/server/index.mjs`
+Build and start from the repo root: `pnpm --filter web build && node apps/web/.output/server/index.mjs`
 
 ### Bun
 
@@ -302,5 +302,5 @@ const childRoute = createFileRoute('/dashboard/stats')({
 
 ## Cross-References
 
-- [start-core/server-routes](../tanstack-start-core-server-routes/SKILL.md) — API endpoints for sitemaps, robots.txt
-- [start-core/execution-model](../tanstack-start-core-execution-model/SKILL.md) — SSR affects where code runs
+- [tanstack-start-core-server-routes](../tanstack-start-core-server-routes/SKILL.md) — API endpoints for sitemaps, robots.txt
+- [tanstack-start-core-execution-model](../tanstack-start-core-execution-model/SKILL.md) — SSR affects where code runs

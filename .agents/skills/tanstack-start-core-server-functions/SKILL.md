@@ -8,7 +8,7 @@ description: >-
   handling, file organization (.functions.ts, .server.ts).
 type: sub-skill
 library: tanstack-start
-library_version: '1.166.2'
+library_version: '1.167.42'
 requires:
   - tanstack-start-core
 sources:
@@ -331,5 +331,5 @@ const deletePostFn = useServerFn(deletePost)
 
 ## Cross-References
 
-- [start-core/execution-model](../tanstack-start-core-execution-model/SKILL.md) — understanding where code runs
-- [start-core/middleware](../tanstack-start-core-middleware/SKILL.md) — composing server functions with middleware
+- [tanstack-start-core-execution-model](../tanstack-start-core-execution-model/SKILL.md) — understanding where code runs
+- [tanstack-start-core-middleware](../tanstack-start-core-middleware/SKILL.md) — composing server functions with middleware

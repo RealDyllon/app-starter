@@ -8,7 +8,7 @@ description: >-
   and ValidateLinkOptions type utilities, as const satisfies pattern.
 type: sub-skill
 library: tanstack-router
-library_version: '1.166.2'
+library_version: '1.168.23'
 requires:
   - tanstack-router-core
 sources:
@@ -494,4 +494,4 @@ export const Route = createFileRoute('/posts')({
 const search = Route.useSearch()          // TanStack hook
 ```
 
-See also: router-core (Register setup), router-core/navigation (from narrowing), router-core/code-splitting (getRouteApi).
+See also: tanstack-router-core (Register setup), tanstack-router-core-navigation (from narrowing), tanstack-router-core-code-splitting (getRouteApi).
