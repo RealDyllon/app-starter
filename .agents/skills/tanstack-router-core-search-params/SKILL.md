@@ -9,7 +9,7 @@ type: sub-skill
 library: tanstack-router
 library_version: '1.166.2'
 requires:
-  - router-core
+  - tanstack-router-core
 sources:
   - TanStack/router:docs/router/guide/search-params.md
   - TanStack/router:docs/router/how-to/setup-basic-search-params.md

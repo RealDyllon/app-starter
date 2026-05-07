@@ -10,7 +10,7 @@ type: sub-skill
 library: tanstack-start
 library_version: '1.166.2'
 requires:
-  - start-core
+  - tanstack-start-core
 sources:
   - TanStack/router:docs/start/framework/react/guide/execution-model.md
   - TanStack/router:docs/start/framework/react/guide/environment-variables.md

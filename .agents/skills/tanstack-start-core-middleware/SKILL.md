@@ -10,8 +10,8 @@ type: sub-skill
 library: tanstack-start
 library_version: '1.166.2'
 requires:
-  - start-core
-  - start-core/server-functions
+  - tanstack-start-core
+  - tanstack-start-core-server-functions
 sources:
   - TanStack/router:docs/start/framework/react/guide/middleware.md
 ---
