@@ -26,14 +26,58 @@ TanStack Router treats search params as JSON-first application state. They are a
 > **CRITICAL**: When using `zodValidator()` and Zod v3, use `fallback()` from `@tanstack/zod-adapter`, NOT zod's `.catch()`. Using `.catch()` with the zod adapter makes the output type `unknown`, destroying type safety. This does not apply to Valibot or ArkType (which use their own fallback mechanisms). It also does not apply to Zod v4, which should use `.catch()` and not use the `zodValidator()`.
 > **CRITICAL**: Types are fully inferred. Never annotate the return of `useSearch()`.
 
-## Setup: Zod Adapter (Recommended)
+## Setup: Zod (Recommended)
+
+> **This repo uses Zod v4** (`apps/web/package.json`: `zod: ^4.3.6`). With Zod v4, schemas satisfy StandardSchema, so pass the schema **directly** to `validateSearch` — no `zodValidator()` adapter required. Use `.catch()` for fallback defaults on invalid values.
+
+```bash
+pnpm add zod
+```
+
+```tsx
+// src/routes/products.tsx — Zod v4 (this repo)
+import { createFileRoute } from '@tanstack/react-router'
+import { z } from 'zod'
+
+const productSearchSchema = z.object({
+  page: z.number().default(1).catch(1),
+  filter: z.string().default('').catch(''),
+  sort: z
+    .enum(['newest', 'oldest', 'price'])
+    .default('newest')
+    .catch('newest'),
+})
+
+export const Route = createFileRoute('/products')({
+  validateSearch: productSearchSchema,
+  component: ProductsPage,
+})
+
+function ProductsPage() {
+  // page: number, filter: string, sort: 'newest' | 'oldest' | 'price'
+  // ALL INFERRED — do not annotate
+  const { page, filter, sort } = Route.useSearch()
+
+  return (
+    <div>
+      <p>
+        Page {page}, filter: {filter}, sort: {sort}
+      </p>
+    </div>
+  )
+}
+```
+
+## Setup: Zod v3 (legacy) — `zodValidator` adapter
+
+For Zod **v3 only**, wrap the schema with `zodValidator()` from `@tanstack/zod-adapter` and use `fallback()` (NOT zod's `.catch()`, which makes the output type `unknown` when used with the adapter). This repo uses Zod v4, so prefer the section above.
 
 ```bash
 pnpm add zod @tanstack/zod-adapter
 ```
 
 ```tsx
-// src/routes/products.tsx
+// src/routes/products.tsx — Zod v3 (legacy)
 import { createFileRoute } from '@tanstack/react-router'
 import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
@@ -51,20 +95,6 @@ export const Route = createFileRoute('/products')({
   validateSearch: zodValidator(productSearchSchema),
   component: ProductsPage,
 })
-
-function ProductsPage() {
-  // page: number, filter: string, sort: 'newest' | 'oldest' | 'price'
-  // ALL INFERRED — do not annotate
-  const { page, filter, sort } = Route.useSearch()
-
-  return (
-    <div>
-      <p>
-        Page {page}, filter: {filter}, sort: {sort}
-      </p>
-    </div>
-  )
-}
 ```
 
 ## Reading Search Params
@@ -167,17 +197,16 @@ function SortDropdown() {
 Parent route search params are automatically merged into child routes:
 
 ```tsx
-// src/routes/shop.tsx — parent defines shared params
+// src/routes/shop.tsx — parent defines shared params (Zod v4)
 import { createFileRoute } from '@tanstack/react-router'
-import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import { z } from 'zod'
 
 const shopSearchSchema = z.object({
-  currency: fallback(z.enum(['USD', 'EUR']).default('USD'), 'USD'),
+  currency: z.enum(['USD', 'EUR']).default('USD').catch('USD'),
 })
 
 export const Route = createFileRoute('/shop')({
-  validateSearch: zodValidator(shopSearchSchema),
+  validateSearch: shopSearchSchema,
 })
 ```
 
@@ -278,7 +307,7 @@ const router = createRouter({
 
 ```tsx
 export const Route = createFileRoute('/products')({
-  validateSearch: zodValidator(productSearchSchema),
+  validateSearch: productSearchSchema, // Zod v4: pass schema directly
   // Pick ONLY the params the loader needs — not the entire search object
   loaderDeps: ({ search }) => ({ page: search.page }),
   loader: async ({ deps }) => {

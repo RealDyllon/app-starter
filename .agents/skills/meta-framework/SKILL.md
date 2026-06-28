@@ -242,7 +242,8 @@ Define collections in a shared module, import in both loaders and components:
 
 ```ts
 // lib/collections.ts
-import { createCollection, queryCollectionOptions } from '@tanstack/react-db'
+import { createCollection } from '@tanstack/react-db'
+import { queryCollectionOptions } from '@tanstack/query-db-collection'
 
 export const todoCollection = createCollection(
   queryCollectionOptions({ ... })
